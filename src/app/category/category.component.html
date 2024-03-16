@@ -1,0 +1,8 @@
+<div id="CategoryHeader" *ngIf="valid; else notFound">
+    <h1><i class="fas fa-search"></i>&nbsp; {{category.name}}</h1>
+    <p *ngIf="category.system_category"><i class="fas fa-check"></i>&nbsp; Categorie verificată oficial.</p>
+    <app-articles [id-category]="category.id"></app-articles>
+</div>
+<ng-template #notFound>
+    <app-page-not-found></app-page-not-found>
+</ng-template>

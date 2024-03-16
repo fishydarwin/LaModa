@@ -1,0 +1,21 @@
+#CategoryHeader {
+    text-align: center;
+
+    h1 {
+        margin: 6px;
+    }
+
+    i {
+        font-size: 24px;
+    }
+
+    p {
+        margin: 0;
+        font-size: x-small;
+        color: var(--color-accent2);
+        i {
+            margin: 0;
+            font-size: x-small;
+        }
+    }
+}

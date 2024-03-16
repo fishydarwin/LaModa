@@ -1,1 +1,257 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lobster&family=Syne:wght@400..800&family=Cookie&display=swap');
+
+@property --color-main1 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #80a1c4;
+}
+
+@property --color-main2 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgb(93, 139, 177);
+}
+
+@property --color-main3 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgba(121, 180, 227);
+}
+
+@property --color-main4 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgb(56, 124, 179);
+}
+
+@property --color-main5 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgb(130, 193, 245);
+}
+
+@property --color-muted1 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #E5E1DA;
+}
+
+@property --color-muted2 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #5a5f60;
+}
+
+@property --color-muted3 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgb(64, 68, 71);
+}
+
+@property --color-muted-link {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: rgb(64, 68, 71);
+}
+
+@property --color-muted-link-hover {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #222;
+}
+
+@property --color-accent1 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #d3b562;
+}
+
+@property --color-accent2 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #c6ab5a;
+}
+
+@property --color-accent3 {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #cca84e;
+}
+
+@property --color-bg {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #FBF9F1;
+}
+
+@property --color-status {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #f3dd9595;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background: var(--color-bg);
+    background-image: url('/assets/stripes.png');
+    background-repeat: repeat;
+    margin: 0px;
+    min-height: 100%;
+}
+
+h1 {
+    color: var(--color-main1);
+}
+
+h2, h3 {
+    color: var(--color-main2);
+}
+
+h4, h5, h6 {
+    color: var(--color-muted1);
+}
+
+p {
+    color: var(--color-muted2);
+}
+
+a {
+    color: var(--color-muted-link);
+    text-decoration: none;
+
+    &:hover {
+        color: var(--color-muted-link-hover);
+    }
+
+    &.button {
+        color: var(--color-muted1);
+        background: linear-gradient(180deg, var(--color-accent1) 0%, var(--color-accent3) 100%);
+        padding: 4px;
+        border-radius: 25px;
+    }
+}
+
+input {
+    margin: 8px;
+    padding: 10px 16px;
+    font-size: medium;
+
+    &.button {
+        border-radius: 25px;
+        background: var(--color-muted2);
+        color: var(--color-muted1);
+        border: none;
+        opacity: 1;
+
+        &:hover {
+            background: var(--color-muted-link-hover);
+            opacity: 1;
+        }
+
+        &:disabled {
+            background: var(--color-muted-2);
+            opacity: 0.5;
+        }
+
+        cursor: pointer;
+    }
+}
+
+button {
+    margin: 8px;
+    padding: 10px 16px;
+    font-size: medium;
+
+    border-radius: 25px;
+    background: var(--color-muted2);
+    color: var(--color-muted1);
+    border: none;
+    opacity: 1;
+
+    &:hover {
+        background: var(--color-muted-link-hover);
+        opacity: 1;
+    }
+
+    &:disabled {
+        background: var(--color-muted-2);
+        opacity: 0.5;
+    }
+
+    cursor: pointer;
+}
+
+input[type=text] {
+    border-radius: 25px;
+    border: 1px solid var(--color-muted2);
+}
+
+select {
+    margin: 8px;
+    padding: 15px;
+    width: 95%;
+    font-size: small;
+}
+
+textarea {
+    margin: 8px;
+    border-radius: 18px;
+    border: 1px solid var(--color-muted2);
+    padding: 15px;
+    min-height: 100px;
+    font-size: small;
+    resize: none;
+}
+
+.uploader {
+
+    text-align: center;
+    margin: 8px;
+    padding: 10px 16px;
+
+    border-radius: 25px;
+    background: var(--color-muted2);
+    color: var(--color-muted1);
+
+    input[type="file"] {
+        display: none;
+    }
+
+    &:hover {
+        background: var(--color-muted-link-hover);
+    }
+
+    cursor: pointer;
+}
+
+.dm-serif {
+    font-family: "DM Serif Display", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.lobster-regular {
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.syne-regular {
+    font-family: "Syne", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.cookie-regular {
+    font-family: "Cookie", cursive;
+    font-weight: 400;
+    font-style: normal;
+}

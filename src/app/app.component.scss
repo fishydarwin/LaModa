@@ -1,0 +1,125 @@
+#MainWrapper {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+
+#Header {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 32px 8px 32px;
+
+    /* https://cssgradient.io */
+    background: rgb(163,212,251);
+    background: -moz-linear-gradient(0deg, rgba(163,212,251,1) 0%, rgba(121,180,227,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(163,212,251,1) 0%, rgba(121,180,227,1) 100%);
+    background: linear-gradient(0deg, rgba(163,212,251,1) 0%, rgba(121,180,227,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a3d4fb",endColorstr="#79b4e3",GradientType=1);
+
+    h1 {
+        color: rgb(64, 68, 71);
+    }
+
+    a.button {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 4px 8px;
+        font-size: medium;
+        background: var(--color-muted3);
+
+        &:hover {
+            background: var(--color-muted-link-hover);
+        }
+    }
+}
+
+#HeaderMenu {
+    display: flex;
+    justify-content: space-evenly;
+    width: fit-content;
+    align-items: center;
+    
+    a {
+        font-size: 28px;
+        padding: 0 8px 0 8px;
+    }
+}
+
+#MainAppGrower {
+    flex: 1 1 auto;
+}
+
+#MainApp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+
+    i {
+        color: #e89d5b;
+    }
+}
+
+#Footer {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 16px 32px 16px 32px;
+    background-color: #2c2932;
+
+    p {
+        font-size: small;
+        color: #ddd;
+        line-height: 0px;
+    }
+}
+
+#FooterLinks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    a {
+        font-size: small;
+        padding: 1px 0 0 12px;
+        color: #ddd;
+        font-weight: bold;
+    }
+
+    span {
+        font-size: normal;
+        padding: 0 0 0 12px;
+        color: #ddd;
+    }
+}
+
+#Content {
+    display: flex;
+}
+
+#StatusBar {
+    display: flex;
+    background: var(--color-status);
+    padding: 4px 16px;
+    padding-left: 10px;
+    font-size: small;
+    box-shadow: 0.5px 1px 2px var(--color-muted2);
+    margin: 6px;
+    min-width: 50%;
+    width: 50%;
+
+    p {
+        margin: 0;
+        padding: 0;
+    }
+
+    i {
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+    }
+}

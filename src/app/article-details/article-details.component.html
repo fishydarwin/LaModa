@@ -1,0 +1,23 @@
+<div id="ArticleWrapper" *ngIf="valid; else notFound">
+    <div id="Title">
+        <h1 class="dm-serif">{{article.name}}</h1>
+    </div>
+    <div id="Category">
+        <a [routerLink]="['/category', category.id]"><p><i class="fas fa-search"></i>&nbsp;{{category.name}}</p></a>
+    </div>
+    <div id="Summary">
+        <p class="syne-regular">{{article.summary}}</p>
+    </div>
+    <div id="Attachments">
+        <img src="{{ attachment.attachment_url }}" *ngFor="let attachment of article.attachment_array">
+    </div>
+    <br>
+    <div id="User">
+        <p>
+            Vezi mai multe de la &nbsp;<a [routerLink]="['/user', user.id]"><i class="fas fa-user"></i> {{user.name}}</a>
+        </p>
+    </div>
+</div>
+<ng-template #notFound>
+    <app-page-not-found></app-page-not-found>
+</ng-template>

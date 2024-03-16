@@ -1,0 +1,21 @@
+#UserDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+
+    h1 {
+        color: var(--color-muted2);
+        margin: 0;
+    }
+
+    i {
+        color: var(--color-muted2);
+    }
+
+    h2, h3, h4 {
+        margin: 2px;
+        color: var(--color-muted2);
+        opacity: 0.75;
+    }
+}

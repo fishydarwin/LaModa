@@ -1,0 +1,8 @@
+<div id="UserDetails" *ngIf="valid; else notFound">
+    <h1><i class="fas fa-user-circle"></i>&nbsp; {{user.name}}</h1>
+    <h4><i class="fas fa-envelope-square"></i>&nbsp; {{user.email}}</h4>
+    <app-articles [id-author]="user.id"></app-articles>
+</div>
+<ng-template #notFound>
+    <app-page-not-found></app-page-not-found>
+</ng-template>

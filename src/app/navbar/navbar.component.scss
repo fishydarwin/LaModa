@@ -1,0 +1,25 @@
+#NavBar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    .nav-entry {
+        background-color: #4c4953;
+        flex: 1;
+        text-align: center;
+        padding: 8px;
+        font-size: small;
+        width: max-content;
+        height: max;
+
+        div {
+            color: var(--color-muted1);
+            font-weight: bold;
+        }
+    }
+
+
+    :hover {
+        background-color: #557699;
+    }
+}

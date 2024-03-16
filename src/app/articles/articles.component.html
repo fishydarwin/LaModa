@@ -1,0 +1,20 @@
+<h1 class="cookie-regular" id="SectionTitle" *ngIf="id_author <= 0 && id_category <= 0">
+    <i class="fas fa-gem"></i>&nbsp;
+    Ai stil&nbsp;
+    <i class="fas fa-gem"></i>
+</h1>
+<div id="ArticleList">
+    <a class="article-item-link" [routerLink]="['/article', article.id]" *ngFor="let article of articles">
+        <div class="article-item">
+            <div>
+                <h3 class="dm-serif name">{{article.name}}</h3>
+                <div class="attachment-list">
+                    <img class="attachment" src="{{attachment.attachment_url}}" 
+                        *ngFor="let attachment of article.attachment_array">
+                </div>
+                <p class="syne-regular summary">{{article.summary}}</p>
+                <h5 class="author"><i class="fas fa-user"></i> {{ getUserById(article.id_author).name }}</h5>
+            </div>
+        </div>
+    </a>
+</div>
