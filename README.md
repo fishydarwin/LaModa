@@ -1,14 +1,28 @@
-# LaModa
+# LaModă
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.3.
+A fictional website (in Romanian) which lets users post articles of their latest in-fashion clothing, make-up, manicure and so on... Front-end is Angular, and back-end is Java Spring.
+
+![Showcase](https://i.imgur.com/8BA3neN.png)
+
+This project was originally created for my university class.  
+I am actively working on finishing this implementation:
+- Front-end/UI Looks ✅
+- Mock data ✅
+- Validation ✅
+- CRUD Operations 🟡
+- Unit Testing 🟡
+- Back-end server 🔴
+- Back-end 🔴
+
+✅ - done | 🟡 - roughly 50% done | 🔴 - not yet started
+
+## Front-end considerations
+
+The front-end was written with Safari (WebKit) in mind, as I use a MacBook. I have tried to make the SCSS code as portable as possible, though some platforms may see differences. Please open a **new issue** if you encounter any trouble.
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
@@ -17,11 +31,3 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
