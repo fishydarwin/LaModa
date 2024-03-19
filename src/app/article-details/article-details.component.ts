@@ -8,6 +8,9 @@ import { NgFor, NgIf } from '@angular/common';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { Category } from '../category';
 import { CategoryService } from '../category.service';
+import { PopupService } from '../popup.service';
+import { SavesService } from '../saves.service';
+import { StatusService } from '../status.service';
 
 @Component({
   selector: 'app-article-details',
@@ -23,6 +26,7 @@ export class ArticleDetailsComponent {
   category!: Category;
 
   valid: boolean = true;
+  access: boolean = true;
 
   constructor (private route: ActivatedRoute,
                private articleService: ArticleService, 
@@ -35,11 +39,36 @@ export class ArticleDetailsComponent {
       this.article = this.articleService.byId(article_id);
       this.user = this.userService.byId(this.article.id_author);
       this.category = this.categoryService.byId(this.article.id_category);
+
+      /* TODO: Shall be user-aware. */
+      if (this.article.id_author != 1) {
+        this.access = false;
+      }
     }
     else {
       this.valid = false;
     }
 
+  }
+
+  delete() {
+    PopupService.acceptCallback = () => {
+      let articleName = this.article.name;
+      let deleted = this.articleService.delete(this.article);
+      if (deleted) {
+        SavesService.save(this.articleService);
+
+        StatusService.crossPageStatus("Articolul a fost șters: \"" + articleName + "\"");
+        window.location.replace("/articles");
+      }
+      else {
+        StatusService.crossPageStatus("A intervenit o eroare, nu se poate șterge acest articol!");
+      }
+      PopupService.setMessage("");
+    };
+    PopupService.cancelCallback = () => {};
+    
+    PopupService.setMessage("Sigur dorești să ștergi acest articol?");
   }
 
 }

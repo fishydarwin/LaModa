@@ -1,0 +1,22 @@
+<form #articleForm="ngForm" id="ArticleForm" action="">
+    <input required id="name" name="name" type="text" [(ngModel)]="dummy_article.name" placeholder="Articol Nou">
+    <textarea required id="summary" name="summary" [(ngModel)]="dummy_article.summary" placeholder="Descrierea articolului"></textarea>
+    <div class="combo">
+        <select required id="category" name="category" type="category" [(ngModel)]="dummy_article.id_category">
+            <option value="category.id" [ngValue]="category.id" *ngFor="let category of categories">
+                {{ category.name }}
+            </option>
+        </select>
+    </div>
+    <label class="uploader">
+        <input required id="attachment_array" name="attachment_array" type="file" accept="image/png, image/jpeg" multiple (change)="onFileSelectionChanged($event)">
+        <i class="fas fa-cloud-upload-alt"></i> Adaugă imagini
+    </label>
+    <div id="FormAttachments">
+        <div class="list" 
+        *ngFor="let attachment of dummy_article.attachment_array; index as i">
+            <img src="{{attachment.attachment_url}}" >
+            <button (click)="onFileRemove($event, i)"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+</form>

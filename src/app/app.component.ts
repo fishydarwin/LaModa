@@ -5,25 +5,23 @@ import { ArticlesComponent } from './articles/articles.component';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { StatusService } from './status.service';
+import { PopupComponent } from './popup/popup.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, ArticlesComponent, FormsModule, NgIf],
+  imports: [RouterOutlet, NavbarComponent, ArticlesComponent, FormsModule, NgIf, PopupComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'laModă';
 
-  constructor(private statusService: StatusService) {
-  }
-
   hasStatus(): boolean {
-    return this.statusService.has();
+    return StatusService.has();
   }
 
   getStatus(): string {
-    return this.statusService.get();
+    return StatusService.get();
   }
 }

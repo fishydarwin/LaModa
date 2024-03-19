@@ -90,6 +90,18 @@
     initial-value: #f3dd9595;
 }
 
+@property --color-accept {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #22953b;
+}
+
+@property --color-cancel {
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #db4343;
+}
+
 * {
     font-family: Arial, Helvetica, sans-serif;
 }

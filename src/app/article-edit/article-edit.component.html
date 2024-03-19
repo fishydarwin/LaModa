@@ -1,0 +1,21 @@
+<div id="MainArticleFormWrapper" *ngIf="valid && access; else notFound">
+    <div id="ArticleFormWrapper">
+        <h1 class="dm-serif">Editare articol</h1>
+        <app-article-form [dummy-article]="dummy_article"></app-article-form>
+        <button type="submit" id="Submit" (click)="editArticle()">
+            <i class="fas fa-check"></i> Salvează articol
+        </button>
+    </div>
+    <div id="ArticlePreviewWrapper">
+        <h1 class="dm-serif">Previzualizare</h1>
+        <app-articles [dummy-article]="dummy_article"></app-articles>
+    </div>
+</div>
+<ng-template #notFound>
+    <ng-container *ngIf="access; else noAccess">
+        <app-page-not-found></app-page-not-found>
+    </ng-container>
+</ng-template>
+<ng-template #noAccess>
+    <app-no-access></app-no-access>
+</ng-template>

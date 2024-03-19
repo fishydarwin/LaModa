@@ -7,7 +7,7 @@ export interface Article {
     summary: string;
     attachment_array: ArticleAttachment[];
 
-    //TODO: creation date, sort by it
+    creation_date: Date;
 }
 
 export interface ArticleAttachment {
@@ -15,4 +15,19 @@ export interface ArticleAttachment {
     id_article: number,
 
     attachment_url: string;
+}
+
+export class ArticleValidator {
+    static validate(article: Article) {
+        if (article.name.trim().length <= 0) {
+            return "Vă rugăm să introduceți numele articolului.";
+        }
+        if (article.summary.trim().length <= 0) {
+            return "Vă rugăm să introduceți descrierea articolului.";
+        }
+        if (article.attachment_array.length <= 0) {
+            return "Trebuie să adaugați cel putin o imagine în articolul dvs.";
+        }
+        return "OK";
+    }
 }

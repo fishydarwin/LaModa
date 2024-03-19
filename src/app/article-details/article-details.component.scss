@@ -73,3 +73,19 @@
     font-size: small;
     margin: 0px;
 }
+
+#Edit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+        color: var(--color-muted-link);
+        padding: 5px 0;
+        background: none;
+
+        &:hover {
+            color: var(--color-muted-link-hover);
+        }
+    }
+}

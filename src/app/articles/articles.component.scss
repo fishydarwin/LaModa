@@ -54,6 +54,7 @@
     overflow-y: hidden;
     scroll-behavior: smooth;
     max-width: 250px;
+    min-height: 160px;
     mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
 
     &::-webkit-scrollbar {

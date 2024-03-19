@@ -1,0 +1,12 @@
+<div id="PopupWrapper" *ngIf="display()">
+    <div id="Popup">
+        <i class="fas fa-exclamation-circle" id="Icon"></i>
+        <h1>{{ getMessage() }}</h1>
+        <button id="Accept" (click)="callAccept()">
+            <i class="fas fa-check-square"></i>&nbsp;OK
+        </button>
+        <button id="Cancel" (click)="callCancel()">
+            <i class="fas fa-window-close"></i>&nbsp;Anulează
+        </button>
+    </div>
+</div>

@@ -12,6 +12,10 @@
         <img src="{{ attachment.attachment_url }}" *ngFor="let attachment of article.attachment_array">
     </div>
     <br>
+    <div *ngIf="access" id="Edit">
+        <a [routerLink]="['/article/edit', article.id]"><i class="fas fa-edit"></i>&nbsp;Editează articolul</a>
+        <button (click)="delete()"><i class="fas fa-trash-alt"></i>&nbsp;Șterge articolul</button>
+    </div>
     <div id="User">
         <p>
             Vezi mai multe de la &nbsp;<a [routerLink]="['/user', user.id]"><i class="fas fa-user"></i> {{user.name}}</a>

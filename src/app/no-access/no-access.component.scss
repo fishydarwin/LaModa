@@ -1,0 +1,34 @@
+#NoAccessWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        margin: 6px;
+        background: -webkit-linear-gradient(var(--color-muted1), var(--color-accent2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        font-size: 64px;
+    }
+
+    i {
+        font-size: 48px;
+        background: var(--color-muted2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    a {
+        font-size: 24px;
+        color: var(--color-muted2);
+        i {
+            font-size: 24px;
+        }
+    }
+
+    a:hover {
+        color: var(--color-muted-link-hover);
+    }
+}

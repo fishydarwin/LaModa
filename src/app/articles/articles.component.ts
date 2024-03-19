@@ -21,6 +21,9 @@ export class ArticlesComponent {
   @Input( {required: false, transform: numberAttribute, alias: 'id-category' }) 
   id_category: number = -1;
 
+  @Input( {required: false, alias: 'dummy-article' }) 
+  dummy_article?: Article;
+
   articles: Article[] = [];
 
   constructor(private articleService: ArticleService, 
@@ -32,7 +35,10 @@ export class ArticlesComponent {
 
   getArticles(): void {
     
-    if (this.id_category > 0) {
+    if (this.dummy_article != null) {
+      this.articles.push(this.dummy_article);
+    }
+    else if (this.id_category > 0) {
       this.articleService.ofCategory(this.id_category)
         .subscribe((articles: Article[]) => this.articles = articles);
     }
