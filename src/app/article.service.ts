@@ -81,6 +81,7 @@ export class ArticleService implements Savable {
 
   add(article: Article): number {
     article.id = this.last_available_id;
+    this.last_available_id++;
     ARTICLES.push(article);
     return article.id;
   }
