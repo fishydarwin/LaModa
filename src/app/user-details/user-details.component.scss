@@ -13,6 +13,11 @@
         color: var(--color-muted2);
     }
 
+
+    button i {
+        color: inherit;
+    }
+
     h2, h3, h4 {
         margin: 2px;
         color: var(--color-muted2);

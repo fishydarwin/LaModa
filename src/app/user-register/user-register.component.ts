@@ -38,7 +38,7 @@ export class UserRegisterComponent {
     }
 
     let dummy_user: User = {
-      id: -1, name: this.name, email: this.email, password_obfuscated: this.password, role: "User"
+      id: -1, name: this.name, email: this.email, password_obfuscated: this.password, role: "user"
     };
 
     let validation = UserValidator.validate(dummy_user);

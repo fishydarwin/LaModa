@@ -8,20 +8,23 @@ import { Article } from '../article';
 import { User } from '../user';
 import { Category } from '../category';
 import { NgIf } from '@angular/common';
+import { NoAccessComponent } from '../no-access/no-access.component';
 
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [BaseChartDirective, NgIf],
+  imports: [BaseChartDirective, NgIf, NoAccessComponent],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.scss'
 })
 export class StatsComponent {
 
+  access: boolean = false;
+
   barChartData: ChartData<'bar', {key: string, value: number} []> = {
     datasets: [{
       type: 'bar',
-      label: 'Number of Entries',
+      label: 'Numărul intrărilor',
       data: [],
       backgroundColor: [
         '#36a2eb',
@@ -34,28 +37,36 @@ export class StatsComponent {
       }
     }],
     labels: [
-      'Articles',
-      'Categories',
-      'Users'
+      'Articole',
+      'Categorii',
+      'Utilizatori'
     ]
   };
 
   pieChartData: ChartData<'pie', {key: string, value: number} []> = {
     datasets: [{
       type: 'pie',
-      label: 'Number of Entries',
+      label: 'Numărul intrărilor',
       data: []
     }],
     labels: [
-      'Articles',
-      'Categories',
-      'Users'
+      'Articole',
+      'Categorii',
+      'Utilizatori'
     ]
   };
 
   constructor(private articleService: ArticleService,
               private categoryService: CategoryService,
               private userService: UserService) {
+    let user = this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
+    if (user == undefined) {
+      return;
+    }
+    if (user.role != "admin") {
+      return;
+    }
+    this.access = true;
   }
 
   chartState: number = 0;
@@ -77,24 +88,24 @@ export class StatsComponent {
     this.userService.all().subscribe((users) => { this.users_all = users; });
 
     this.pieChartData.datasets[0].data.push(
-      {key: 'Articles', value: this.articles_all.length }
+      {key: 'Articole', value: this.articles_all.length }
     );
     this.barChartData.datasets[0].data.push(
-      {key: 'Articles', value: this.articles_all.length }
+      {key: 'Articole', value: this.articles_all.length }
     );
 
     this.pieChartData.datasets[0].data.push(
-      {key: 'Categories', value: this.categories_all.length }
+      {key: 'Categorii', value: this.categories_all.length }
     );
     this.barChartData.datasets[0].data.push(
-      {key: 'Categories', value: this.categories_all.length }
+      {key: 'Categorii', value: this.categories_all.length }
     );
 
     this.pieChartData.datasets[0].data.push(
-      {key: 'Users', value: this.users_all.length }
+      {key: 'Utilizatori', value: this.users_all.length }
     );
     this.barChartData.datasets[0].data.push(
-      {key: 'Users', value: this.users_all.length }
+      {key: 'Utilizatori', value: this.users_all.length }
     );
   }
 
