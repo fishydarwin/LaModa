@@ -20,11 +20,11 @@ export class ArticleService implements Savable {
       creation_date: new Date() };
 
   saveData(): void {
-    localStorage.setItem('ARTICLES', JSON.stringify(ARTICLES));
+    sessionStorage.setItem('ARTICLES', JSON.stringify(ARTICLES));
   }
 
   loadData(): void {
-    let saveState: string | null = localStorage.getItem('ARTICLES');
+    let saveState: string | null = sessionStorage.getItem('ARTICLES');
     if (saveState != null) {
       let result: Article[] = JSON.parse(saveState);
       ARTICLES.splice(0, ARTICLES.length);
