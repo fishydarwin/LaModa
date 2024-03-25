@@ -4,11 +4,14 @@ import { Article } from './article';
 import { Observable, of } from 'rxjs';
 import { Savable } from './savable';
 import { SavesService } from './saves.service';
+import { PaginatorService } from './paginator.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService implements Savable {
+
+  
 
   NULL_ARTICLE: Article = 
     { id: -1, id_author: -1, id_category: -1, 
@@ -17,11 +20,11 @@ export class ArticleService implements Savable {
       creation_date: new Date() };
 
   saveData(): void {
-    window.sessionStorage.setItem('ARTICLES', JSON.stringify(ARTICLES));
+    localStorage.setItem('ARTICLES', JSON.stringify(ARTICLES));
   }
 
   loadData(): void {
-    let saveState: string | null = window.sessionStorage.getItem('ARTICLES');
+    let saveState: string | null = localStorage.getItem('ARTICLES');
     if (saveState != null) {
       let result: Article[] = JSON.parse(saveState);
       ARTICLES.splice(0, ARTICLES.length);
@@ -43,8 +46,13 @@ export class ArticleService implements Savable {
       });
   }
 
-  all(): Observable<Article[]> {
+  all(): Observable<Article[]> { // DEPRECATED, use paged() instead for faster results
     const articles = of(this.sortByDate(ARTICLES));
+    return articles;
+  }
+
+  paged(page: number, elements: number): Observable<Article[]> {
+    const articles = of(this.sortByDate(PaginatorService.paginate(ARTICLES, page, elements)));
     return articles;
   }
 

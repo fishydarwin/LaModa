@@ -145,7 +145,7 @@ a {
     &.button {
         color: var(--color-muted1);
         background: linear-gradient(180deg, var(--color-accent1) 0%, var(--color-accent3) 100%);
-        padding: 4px;
+        padding: 8px 12px;
         border-radius: 25px;
     }
 }
@@ -200,7 +200,9 @@ button {
     cursor: pointer;
 }
 
-input[type=text] {
+input[type=text],
+input[type=email],
+input[type=password] {
     border-radius: 25px;
     border: 1px solid var(--color-muted2);
 }

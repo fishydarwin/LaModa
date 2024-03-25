@@ -6,14 +6,17 @@
             </a>
             <div id="HeaderMenu">
                 <!-- TODO: SLEEK SEARCH BAR -->
-                <a href="/article/create" class="button"><i class="fas fa-plus"></i>&nbsp;Articol Nou</a>
-                <!-- TODO: TRENDING POSTS -->
-                <a href="#"><i class="fas fa-fire-alt"></i></a>
-                <!-- TODO: NOTIFICATIONS -->
-                <a href="#"><i class="fas fa-bell"></i></a>
-                <!-- TODO: MAKE ALL THIS USER-AWARE -->
-                <!-- CHANGE TO CURRENT USER, NOT ALWAYS ADMIN -->
-                <a href="user/1"><i class="fas fa-user-circle"></i></a>
+                <div id="HeaderMenuInner" *ngIf="user() != undefined; else noUser">
+                    <a href="/article/create" class="button"><i class="fas fa-plus"></i>&nbsp;Articol Nou</a>
+                    <!-- TODO: TRENDING POSTS -->
+                    <!-- <a href="#"><i class="fas fa-fire-alt"></i></a> -->
+                    <!-- TODO: NOTIFICATIONS -->
+                    <!-- <a href="#"><i class="fas fa-bell"></i></a> -->
+                    <a href="user/{{ user()?.id }}"><i class="fas fa-user-circle"></i></a>
+                </div>
+                <ng-template #noUser>
+                    <a href="user/login" class="button"><i class="fas fa-sign-in-alt"></i>&nbsp;Contul tău</a>
+                </ng-template>
             </div>
         </div>
     </header>

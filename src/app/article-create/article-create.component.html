@@ -1,13 +1,18 @@
-<div id="MainArticleFormWrapper">
-    <div id="ArticleFormWrapper">
-        <h1 class="dm-serif">Creare articol nou</h1>
-        <app-article-form [dummy-article]="dummy_article"></app-article-form>
-        <button type="submit" id="Submit" (click)="createArticle()">
-            <i class="fas fa-plus"></i> Creează articol
-        </button>
-    </div>
-    <div id="ArticlePreviewWrapper">
-        <h1 class="dm-serif">Previzualizare</h1>
-        <app-articles [dummy-article]="dummy_article"></app-articles>
-    </div>
+<div *ngIf="valid; else noAccess">
+    <div id="MainArticleFormWrapper">
+        <div id="ArticleFormWrapper">
+            <h1 class="dm-serif">Creare articol nou</h1>
+            <app-article-form [dummy-article]="dummy_article"></app-article-form>
+            <button type="submit" id="Submit" (click)="createArticle()">
+                <i class="fas fa-plus"></i> Creează articol
+            </button>
+        </div>
+        <div id="ArticlePreviewWrapper">
+            <h1 class="dm-serif">Previzualizare</h1>
+            <app-articles [dummy-article]="dummy_article"></app-articles>
+        </div>
+    </div>    
 </div>
+<ng-template #noAccess>
+    <app-no-access></app-no-access>
+</ng-template>

@@ -10,6 +10,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { NgIf } from '@angular/common';
 import { NoAccessComponent } from '../no-access/no-access.component';
+import { User } from '../user';
 
 @Component({
   selector: 'app-article-edit',
@@ -25,11 +26,15 @@ export class ArticleEditComponent {
 
   dummy_article: Article = 
     // TODO: change author id from 1 to be user-aware
-    { id: -1, id_author: 1, id_category: 1, 
+    { id: -1, id_author: -1, id_category: 1, 
       name: "Articol Nou", summary: "", 
       attachment_array: [],
       creation_date: new Date()
     };
+
+  user(): User|undefined {
+    return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
+  }
 
   constructor (private route: ActivatedRoute,
                private userService: UserService,
@@ -39,10 +44,18 @@ export class ArticleEditComponent {
 
       if (articleService.any(article_id)) {
         this.dummy_article = this.articleService.byId(article_id);
-        /* TODO: Shall be user-aware. */
-        if (this.dummy_article.id_author != 1) {
+
+        let loggedIn = this.user();
+        if (loggedIn == undefined) {
+          this.access = false;
+          return;
+        }
+
+        if (this.dummy_article.id_author != loggedIn.id) {
           this.access = false;
         }
+
+        this.dummy_article.id_author = loggedIn.id;
       }
       else {
         this.valid = false;
@@ -50,8 +63,7 @@ export class ArticleEditComponent {
   }
 
   getUserById() {
-    // TODO: change author id from 1 to be user-aware
-    return this.userService.byId(1);
+    return this.user();
   }
 
   editArticle() {

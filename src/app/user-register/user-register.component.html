@@ -1,0 +1,21 @@
+<div *ngIf="valid; else noAccess">
+    <div id="RegisterWrapper">
+        <h1>Creează un cont nou</h1>
+        <form id="RegisterForm">
+            <input [(ngModel)]="name" name="name" type="text" placeholder="Numele dvs.">
+            <input [(ngModel)]="email" name="email" type="email" placeholder="Adresa de e-mail">
+            <input [(ngModel)]="password" name="password" type="password" placeholder="Parola">
+            <input [(ngModel)]="confirmPassword" name="confirmPassword" type="password" placeholder="Confirmă parola">
+            <button type="submit" id="Submit" (click)="register()">
+                <i class="fas fa-plus"></i> Întregistrare
+            </button>
+        </form>
+    </div>
+    <br>
+    <div id="LoginWrapper">
+        <a href="/user/login"><i class="fas fa-sign-in-alt"></i> Ai deja un cont?</a>
+    </div>
+</div>
+<ng-template #noAccess>
+    <app-no-access></app-no-access>
+</ng-template>

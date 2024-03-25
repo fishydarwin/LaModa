@@ -22,12 +22,16 @@ import { StatusService } from '../status.service';
 export class ArticleDetailsComponent {
 
   article!: Article;
-  user!: User;
+  author!: User;
   category!: Category;
 
   valid: boolean = true;
   access: boolean = true;
 
+  user(): User|undefined {
+    return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
+  }
+  
   constructor (private route: ActivatedRoute,
                private articleService: ArticleService, 
                private userService: UserService,
@@ -37,12 +41,14 @@ export class ArticleDetailsComponent {
     
     if (articleService.any(article_id)) {
       this.article = this.articleService.byId(article_id);
-      this.user = this.userService.byId(this.article.id_author);
+      this.author = this.userService.byId(this.article.id_author);
       this.category = this.categoryService.byId(this.article.id_category);
 
-      /* TODO: Shall be user-aware. */
-      if (this.article.id_author != 1) {
-        this.access = false;
+      let loggedIn = this.user();
+      if (loggedIn != undefined) {
+        if (this.article.id_author != loggedIn.id) {
+          this.access = false;
+        }
       }
     }
     else {

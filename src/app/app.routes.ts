@@ -8,6 +8,9 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { CategoryComponent } from './category/category.component';
 import { ArticleCreateComponent } from './article-create/article-create.component';
 import { ArticleEditComponent } from './article-edit/article-edit.component';
+import { StatsComponent } from './stats/stats.component';
+import { UserLoginComponent } from './user-login/user-login.component';
+import { UserRegisterComponent } from './user-register/user-register.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/articles', pathMatch: 'full' },
@@ -17,9 +20,13 @@ export const routes: Routes = [
     { path: 'article/:id', component: ArticleDetailsComponent },
     { path: 'article/edit/:id', component: ArticleEditComponent },
 
+    { path: 'user/login', component: UserLoginComponent },
+    { path: 'user/register', component: UserRegisterComponent },
     { path: 'user/:id', component: UserDetailsComponent },
     
     { path: 'category/:id', component: CategoryComponent },
+
+    { path: 'admin/stats', component: StatsComponent },
 
     // special
     { path: 'terms', component: TermsAndConditionsComponent},

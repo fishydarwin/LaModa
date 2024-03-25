@@ -47,6 +47,12 @@
     }
 }
 
+#HeaderMenuInner {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 #MainAppGrower {
     flex: 1 1 auto;
 }

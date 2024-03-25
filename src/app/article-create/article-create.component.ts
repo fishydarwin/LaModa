@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Article, ArticleAttachment, ArticleValidator } from '../article';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { UserService } from '../user.service';
 import { StatusService } from '../status.service';
 import { ArticleService } from '../article.service';
@@ -8,31 +8,46 @@ import { ARTICLES } from '../mock-data';
 import { ArticlesComponent } from '../articles/articles.component';
 import { ArticleFormComponent } from '../article-form/article-form.component';
 import { SavesService } from '../saves.service';
+import { User } from '../user';
+import { NoAccessComponent } from '../no-access/no-access.component';
 
 @Component({
   selector: 'app-article-create',
   standalone: true,
-  imports: [NgFor, ArticlesComponent, ArticleFormComponent],
+  imports: [NgFor, ArticlesComponent, ArticleFormComponent, NgIf, NoAccessComponent],
   templateUrl: './article-create.component.html',
   styleUrl: './article-create.component.scss'
 })
 export class ArticleCreateComponent {
+  
+  valid = true;
 
   dummy_article: Article = 
     // TODO: change author id from 1 to be user-aware
-    { id: -1, id_author: 1, id_category: 1, 
+    { id: -1, id_author: -1, id_category: 1, 
       name: "Articol Nou", summary: "", 
       attachment_array: [],
       creation_date: new Date()
     };
 
+  user(): User|undefined {
+    return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
+  }
+    
   constructor (private userService: UserService,
                private articleService: ArticleService) {
+
+    let user = this.user();
+    if (user == undefined) {
+      this.valid = false;
+      return;
+    }
+
+    this.dummy_article.id_author = user.id;
   }
 
   getUserById() {
-    // TODO: change author id from 1 to be user-aware
-    return this.userService.byId(1);
+    return this.user();
   }
 
   createArticle() {
