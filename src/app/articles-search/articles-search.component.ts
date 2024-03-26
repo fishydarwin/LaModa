@@ -11,11 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ArticlesSearchComponent {
 
-  match_title: string = "";
+  match_text: string = "";
 
   constructor(private route: ActivatedRoute) {
-    let match_title = this.route.snapshot.paramMap.get('text');
-    if (match_title != null) this.match_title = match_title;
+    let match_text = this.route.snapshot.paramMap.get('text');
+    if (match_text != null) this.match_text = match_text;
   }
 
 }

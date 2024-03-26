@@ -24,8 +24,8 @@ export class ArticlesComponent {
   @Input( {required: false, alias: 'dummy-article' }) 
   dummy_article?: Article;
 
-  @Input( {required: false, alias: 'match-title' }) 
-  match_title: string = "";
+  @Input( {required: false, alias: 'match-text' }) 
+  match_text: string = "";
 
   articles: Article[] = [];
 
@@ -45,8 +45,8 @@ export class ArticlesComponent {
       this.articleService.ofCategory(this.id_category)
         .subscribe((articles: Article[]) => this.articles = articles);
     }
-    else if (this.match_title.length > 0) {
-      this.articleService.matchName(this.match_title)
+    else if (this.match_text.length > 0) {
+      this.articleService.matchText(this.match_text)
         .subscribe((articles: Article[]) => this.articles = articles);
     }
     else if (this.id_author <= 0) {

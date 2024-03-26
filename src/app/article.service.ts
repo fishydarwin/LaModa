@@ -82,10 +82,12 @@ export class ArticleService implements Savable {
     return articles;
   }
 
-  matchName(name: string): Observable<Article[]> {
+  matchText(text: string): Observable<Article[]> {
     const articles = of(
       this.sortByDate(ARTICLES.filter(
-        article => article.name.toLowerCase().includes(name.toLowerCase())
+        article => 
+        article.name.toLowerCase().includes(text.toLowerCase()) ||
+        article.summary.toLowerCase().includes(text.toLowerCase())
       ))
     );
     return articles;
