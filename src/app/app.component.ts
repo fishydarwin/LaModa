@@ -18,6 +18,7 @@ import { User } from './user';
 })
 export class AppComponent {
   title = 'laModă';
+  searchText = "";
 
   constructor(private userService: UserService) {}
 
@@ -31,5 +32,12 @@ export class AppComponent {
   
   user(): User|undefined {
     return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
+  }
+
+  search() {
+    let trimmed = this.searchText.trim();
+    if (trimmed.length > 0)
+      window.location.href = "/articles/search/" + trimmed; 
+      //TODO: future warning: avoid injection!
   }
 }

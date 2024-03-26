@@ -24,6 +24,9 @@ export class ArticlesComponent {
   @Input( {required: false, alias: 'dummy-article' }) 
   dummy_article?: Article;
 
+  @Input( {required: false, alias: 'match-title' }) 
+  match_title: string = "";
+
   articles: Article[] = [];
 
   constructor(private articleService: ArticleService, 
@@ -42,6 +45,10 @@ export class ArticlesComponent {
       this.articleService.ofCategory(this.id_category)
         .subscribe((articles: Article[]) => this.articles = articles);
     }
+    else if (this.match_title.length > 0) {
+      this.articleService.matchName(this.match_title)
+        .subscribe((articles: Article[]) => this.articles = articles);
+    }
     else if (this.id_author <= 0) {
       this.articleService.all()
         .subscribe((articles: Article[]) => this.articles = articles);
@@ -50,7 +57,7 @@ export class ArticlesComponent {
       this.articleService.ofUser(this.id_author)
         .subscribe((articles: Article[]) => this.articles = articles);
     }
-    
+ 
   }
 
   getUserById(id: number): User {
@@ -58,3 +65,4 @@ export class ArticlesComponent {
   }
 
 }
+

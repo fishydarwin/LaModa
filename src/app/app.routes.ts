@@ -11,11 +11,13 @@ import { ArticleEditComponent } from './article-edit/article-edit.component';
 import { StatsComponent } from './stats/stats.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
+import { ArticlesSearchComponent } from './articles-search/articles-search.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/articles', pathMatch: 'full' },
 
     { path: 'articles', component: ArticlesComponent },
+    { path: 'articles/search/:text', component: ArticlesSearchComponent },
     { path: 'article/create', component: ArticleCreateComponent },
     { path: 'article/:id', component: ArticleDetailsComponent },
     { path: 'article/edit/:id', component: ArticleEditComponent },

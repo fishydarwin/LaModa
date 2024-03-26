@@ -75,13 +75,11 @@ export class StatsComponent {
     if (this.chartState > 1) this.chartState = 0;
   }
 
-
   private articles_all: Article[] = [];
   private categories_all: Category[]  = [];
   private users_all: User[] = [];
 
   ngOnInit() {
-    //TODO: user-context
 
     this.articleService.all().subscribe((articles) => { this.articles_all = articles; });
     this.categories_all = this.categoryService.all();

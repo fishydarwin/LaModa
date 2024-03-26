@@ -11,8 +11,6 @@ import { PaginatorService } from './paginator.service';
 })
 export class ArticleService implements Savable {
 
-  
-
   NULL_ARTICLE: Article = 
     { id: -1, id_author: -1, id_category: -1, 
       name: '', summary: '', 
@@ -80,6 +78,15 @@ export class ArticleService implements Savable {
   ofCategory(id_category: number): Observable<Article[]> {
     const articles = of(
       this.sortByDate(ARTICLES.filter(article => article.id_category == id_category))
+    );
+    return articles;
+  }
+
+  matchName(name: string): Observable<Article[]> {
+    const articles = of(
+      this.sortByDate(ARTICLES.filter(
+        article => article.name.toLowerCase().includes(name.toLowerCase())
+      ))
     );
     return articles;
   }
