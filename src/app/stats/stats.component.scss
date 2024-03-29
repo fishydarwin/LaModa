@@ -22,5 +22,11 @@
             margin: 0;
             margin-top: 16px;
         }
+
+        #ChartSizeForcer {
+            display: flex;
+            justify-content: center;
+            max-height: 300px;
+        }
     }
 }

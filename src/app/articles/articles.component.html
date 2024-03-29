@@ -5,7 +5,7 @@
     <i class="fas fa-gem"></i>
 </h1>
 <div id="ArticleList">
-    <a class="article-item-link" [routerLink]="['/article', article.id]" *ngFor="let article of articles">
+    <a class="article-item-link" [routerLink]="dummy_article == null ? ['/article', article.id] : []" *ngFor="let article of articles | paginate: { itemsPerPage: 9, currentPage: current_page, totalItems: total}">
         <div class="article-item">
             <div>
                 <h3 class="dm-serif name">{{article.name}}</h3>
@@ -21,4 +21,7 @@
     <div *ngIf="articles.length == 0">
         <h1>Nu au putut fi găsite articole.</h1>
     </div>
+</div>
+<div id="PaginationControls" *ngIf="articles.length > 0 && dummy_article == null">
+    <pagination-controls (pageChange)="updatePage($event)" previousLabel="Înapoi" nextLabel="Înainte"></pagination-controls>
 </div>

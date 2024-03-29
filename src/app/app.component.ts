@@ -8,11 +8,12 @@ import { StatusService } from './status.service';
 import { PopupComponent } from './popup/popup.component';
 import { UserService } from './user.service';
 import { User } from './user';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, ArticlesComponent, FormsModule, NgIf, PopupComponent],
+  imports: [RouterOutlet, NavbarComponent, ArticlesComponent, FormsModule, NgIf, PopupComponent, NgxPaginationModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -40,4 +41,11 @@ export class AppComponent {
       window.location.href = "/articles/search/" + trimmed; 
       //TODO: future warning: avoid injection!
   }
+
+  static paginate(who: any, page: number, elements: number) {
+    let start = who.length - elements * page;
+    if (start < 0) start = 0;
+    return who.slice(start, who.length - elements * (page - 1));
+  }
+
 }

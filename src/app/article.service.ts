@@ -4,7 +4,7 @@ import { Article } from './article';
 import { Observable, of } from 'rxjs';
 import { Savable } from './savable';
 import { SavesService } from './saves.service';
-import { PaginatorService } from './paginator.service';
+import { AppComponent } from './app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -44,14 +44,17 @@ export class ArticleService implements Savable {
       });
   }
 
-  all(): Observable<Article[]> { // DEPRECATED, use paged() instead for faster results
-    const articles = of(this.sortByDate(ARTICLES));
+  all(page: number = 0): Observable<Article[]> {
+    if (page <= 0) {
+      const articles = of(this.sortByDate(ARTICLES));
+      return articles;
+    }
+    const articles = of(this.sortByDate(AppComponent.paginate(ARTICLES, page, 9)));
     return articles;
   }
 
-  paged(page: number, elements: number): Observable<Article[]> {
-    const articles = of(this.sortByDate(PaginatorService.paginate(ARTICLES, page, elements)));
-    return articles;
+  sizeAll(): number {
+    return ARTICLES.length;
   }
 
   any(id: number): boolean {
@@ -68,29 +71,45 @@ export class ArticleService implements Savable {
     return this.NULL_ARTICLE;
   }
 
-  ofUser(id_author: number): Observable<Article[]> {
+  ofUser(id_author: number, page: number): Observable<Article[]> {
     const articles = of(
-      this.sortByDate(ARTICLES.filter(article => article.id_author == id_author))
+      this.sortByDate(AppComponent.paginate(ARTICLES.filter(article => article.id_author == id_author), page, 9))
     );
     return articles;
   }
 
-  ofCategory(id_category: number): Observable<Article[]> {
+  sizeOfUser(id_author: number): number {
+    return ARTICLES.filter(article => article.id_author == id_author).length;
+  }
+
+  ofCategory(id_category: number, page: number): Observable<Article[]> {
     const articles = of(
-      this.sortByDate(ARTICLES.filter(article => article.id_category == id_category))
+      this.sortByDate(AppComponent.paginate(ARTICLES.filter(article => article.id_category == id_category), page, 9))
     );
     return articles;
   }
 
-  matchText(text: string): Observable<Article[]> {
+  sizeOfCategory(id_category: number): number {
+    return ARTICLES.filter(article => article.id_category == id_category).length;
+  }
+
+  matchText(text: string, page: number): Observable<Article[]> {
     const articles = of(
-      this.sortByDate(ARTICLES.filter(
+      this.sortByDate(AppComponent.paginate(ARTICLES.filter(
         article => 
         article.name.toLowerCase().includes(text.toLowerCase()) ||
         article.summary.toLowerCase().includes(text.toLowerCase())
-      ))
+      ), page, 9))
     );
     return articles;
+  }
+
+  sizeOfMatchText(text: string): number {
+    return ARTICLES.filter(
+      article => 
+      article.name.toLowerCase().includes(text.toLowerCase()) ||
+      article.summary.toLowerCase().includes(text.toLowerCase())
+    ).length;
   }
 
   /* CREATE */

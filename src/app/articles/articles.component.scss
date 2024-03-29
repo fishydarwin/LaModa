@@ -83,3 +83,30 @@
 
 // .article-item .author {
 // }
+
+#PaginationControls {
+    display: flex;
+    justify-content: center;
+
+    ::ng-deep .ngx-pagination {
+        padding-inline-start: 0;
+
+        .current {
+            color: var(--color-muted1);
+            background-color: #000;
+        }
+
+        .disabled {
+            background-color: none;
+        }
+
+        li a {
+            color: var(--color-muted1);
+            background-color: var(--color-muted2);
+        }
+
+        li a:hover {
+            background-color: var(--color-muted3);
+        }
+    }
+}

@@ -26,7 +26,7 @@ export class ArticleDetailsComponent {
   category!: Category;
 
   valid: boolean = true;
-  access: boolean = true;
+  access: boolean = false;
 
   user(): User|undefined {
     return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
@@ -46,8 +46,8 @@ export class ArticleDetailsComponent {
 
       let loggedIn = this.user();
       if (loggedIn != undefined) {
-        if (this.article.id_author != loggedIn.id) {
-          this.access = false;
+        if (this.article.id_author == loggedIn.id) {
+          this.access = true;
         }
       }
     }

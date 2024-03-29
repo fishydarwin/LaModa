@@ -23,7 +23,6 @@ export class ArticleCreateComponent {
   valid = true;
 
   dummy_article: Article = 
-    // TODO: change author id from 1 to be user-aware
     { id: -1, id_author: -1, id_category: 1, 
       name: "Articol Nou", summary: "", 
       attachment_array: [],
