@@ -91,8 +91,7 @@ export class UserService implements Savable {
   last_available_id = 0;
 
   add(user: User): number {
-    user.id = this.last_available_id;
-    this.last_available_id++;
+    user.id = ++this.last_available_id;
     USERS.push(user);
     return user.id;
   }
