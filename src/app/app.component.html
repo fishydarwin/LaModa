@@ -6,13 +6,13 @@
             </a>
             <div id="HeaderMenu">
                 <input type="text" name="searchText" [(ngModel)]="searchText" placeholder="Caută articole" (keydown.enter)="search()">
-                <div id="HeaderMenuInner" *ngIf="user() != undefined; else noUser">
+                <div id="HeaderMenuInner" *ngIf="user != undefined; else noUser">
                     <a href="/article/create" class="button"><i class="fas fa-plus"></i>&nbsp;Articol Nou</a>
                     <!-- TODO: TRENDING POSTS -->
                     <!-- <a href="#"><i class="fas fa-fire-alt"></i></a> -->
                     <!-- TODO: NOTIFICATIONS -->
                     <!-- <a href="#"><i class="fas fa-bell"></i></a> -->
-                    <a href="user/{{ user()?.id }}"><i class="fas fa-user-circle"></i></a>
+                    <a href="user/{{ user.id }}"><i class="fas fa-user-circle"></i></a>
                 </div>
                 <ng-template #noUser>
                     <a href="user/login" class="button"><i class="fas fa-sign-in-alt"></i>&nbsp;Contul tău</a>

@@ -9,7 +9,7 @@
         <p class="syne-regular">{{article.summary}}</p>
     </div>
     <div id="Attachments">
-        <img src="{{ attachment.attachment_url }}" *ngFor="let attachment of article.attachment_array">
+        <img src="{{ attachment.attachmentUrl }}" *ngFor="let attachment of article.attachmentArray">
     </div>
     <br>
     <div *ngIf="access" id="Edit">

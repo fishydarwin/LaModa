@@ -4,7 +4,6 @@ import { NgFor, NgIf } from '@angular/common';
 import { UserService } from '../user.service';
 import { StatusService } from '../status.service';
 import { ArticleService } from '../article.service';
-import { ARTICLES } from '../mock-data';
 import { ArticlesComponent } from '../articles/articles.component';
 import { ArticleFormComponent } from '../article-form/article-form.component';
 import { SavesService } from '../saves.service';
@@ -20,33 +19,32 @@ import { NoAccessComponent } from '../no-access/no-access.component';
 })
 export class ArticleCreateComponent {
   
-  valid = true;
+  valid = false;
 
   dummy_article: Article = 
-    { id: -1, id_author: -1, id_category: 1, 
+    { id: -1, idAuthor: -1, idCategory: 1, 
       name: "Articol Nou", summary: "", 
-      attachment_array: [],
-      creation_date: new Date()
+      attachmentArray: [],
+      // creationDate: new Date()
     };
 
-  user(): User|undefined {
-    return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
-  }
+  user: User|undefined;
     
   constructor (private userService: UserService,
                private articleService: ArticleService) {
 
-    let user = this.user();
-    if (user == undefined) {
-      this.valid = false;
-      return;
-    }
+    this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
+      .subscribe(user => {
+        this.user = user;
+        if (user == undefined) return;
 
-    this.dummy_article.id_author = user.id;
+        this.valid = true;
+        this.dummy_article.idAuthor = user.id;
+      });
   }
 
   getUserById() {
-    return this.user();
+    return this.user;
   }
 
   createArticle() {
@@ -56,10 +54,11 @@ export class ArticleCreateComponent {
       return;
     }
 
-    let articleId = this.articleService.add(this.dummy_article);
-    SavesService.save(this.articleService);
+    this.articleService.add(this.dummy_article)
+      .subscribe((articleId) => {
+        window.location.replace("/article/" + articleId);
+      });
 
-    window.location.replace("/article/" + articleId);
   }
 
 }

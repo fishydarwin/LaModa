@@ -32,11 +32,22 @@ export class ArticlesComponent {
   match_text: string = "";
 
   articles: Article[] = [];
+  users: { [id: number] : User } = {};
 
   constructor(private articleService: ArticleService, 
-              private userService: UserService) {}
+              private userService: UserService) {
+                
+    //TODO: HOTFIX: temporary
+    this.userService.all()
+      .subscribe((users) => {
+        users.forEach(user => {
+          this.users[user.id] = user;
+        })
+      });
+    
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getArticles();
   }
 
@@ -47,29 +58,37 @@ export class ArticlesComponent {
     }
     else if (this.id_category > 0) {
       this.articleService.ofCategory(this.id_category, this.current_page)
-        .subscribe((articles: Article[]) => this.articles = articles);
-      this.total = this.articleService.sizeOfCategory(this.id_category);
+        .subscribe((result) => {
+          this.articles = result.result;
+          this.total = result.size;
+        });
     }
     else if (this.match_text.length > 0) {
       this.articleService.matchText(this.match_text, this.current_page)
-        .subscribe((articles: Article[]) => this.articles = articles);
-      this.total = this.articleService.sizeOfMatchText(this.match_text);
+        .subscribe((result) => {
+          this.articles = result.result;
+          this.total = result.size;
+        });
     }
     else if (this.id_author <= 0) {
       this.articleService.all(this.current_page)
-        .subscribe((articles: Article[]) => this.articles = articles);
-        this.total = this.articleService.sizeAll();
+        .subscribe((result) => {
+          this.articles = result.result;
+          this.total = result.size;
+        });
     }
     else {
       this.articleService.ofUser(this.id_author, this.current_page)
-        .subscribe((articles: Article[]) => this.articles = articles);
-      this.total = this.articleService.sizeOfUser(this.id_author);
+      .subscribe((result) => {
+        this.articles = result.result;
+        this.total = result.size;
+      });
     }
  
   }
 
   getUserById(id: number): User {
-    return this.userService.byId(id);
+    return this.users[id];
   }
 
   updatePage(page: number): void {

@@ -59,14 +59,19 @@ export class StatsComponent {
   constructor(private articleService: ArticleService,
               private categoryService: CategoryService,
               private userService: UserService) {
-    let user = this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
-    if (user == undefined) {
-      return;
-    }
-    if (user.role != "admin") {
-      return;
-    }
-    this.access = true;
+  }
+
+  ngInit() {
+    this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
+      .subscribe((user) => {
+        if (user == undefined) {
+          return;
+        }
+        if (user.role != "admin") {
+          return;
+        }
+        this.access = true;
+      });
   }
 
   chartState: number = 0;
@@ -75,21 +80,21 @@ export class StatsComponent {
     if (this.chartState > 1) this.chartState = 0;
   }
 
-  private articles_all: Article[] = [];
+  private articles_size: number = 0;
   private categories_all: Category[]  = [];
   private users_all: User[] = [];
 
   ngOnInit() {
 
-    this.articleService.all().subscribe((articles) => { this.articles_all = articles; });
-    this.categories_all = this.categoryService.all();
+    this.articleService.all().subscribe((result) => { this.articles_size = result.size; });
+    this.categoryService.all().subscribe((categories) => { this.categories_all = categories; })
     this.userService.all().subscribe((users) => { this.users_all = users; });
 
     this.pieChartData.datasets[0].data.push(
-      {key: 'Articole', value: this.articles_all.length }
+      {key: 'Articole', value: this.articles_size }
     );
     this.barChartData.datasets[0].data.push(
-      {key: 'Articole', value: this.articles_all.length }
+      {key: 'Articole', value: this.articles_size }
     );
 
     this.pieChartData.datasets[0].data.push(

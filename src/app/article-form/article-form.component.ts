@@ -16,16 +16,15 @@ export class ArticleFormComponent {
   
   @Input({required: true, alias: 'dummy-article' }) 
   dummy_article: Article = 
-  { id: -1, id_author: -1, id_category: -1, 
-    name: "", summary: "", attachment_array: [], 
-    creation_date: new Date() };
+  { id: -1, idAuthor: -1, idCategory: -1, 
+    name: "", summary: "", attachmentArray: [] };
+    // creationDate: new Date() };
 
   categories: Category[] = [];
 
-  constructor(private categoryService: CategoryService) {}
-
-  ngOnInit() {
-    this.categories = this.categoryService.all();
+  constructor(private categoryService: CategoryService) {
+    this.categoryService.all()
+      .subscribe(categories => this.categories = categories);
   }
 
   onFileSelectionChanged(event: Event) {
@@ -35,15 +34,17 @@ export class ArticleFormComponent {
       Array.from(fileList).forEach((fileObject: File) => {
         const url = window.URL.createObjectURL(fileObject);
         let attachment = {} as ArticleAttachment;
-        attachment.attachment_url = url;
-        this.dummy_article.attachment_array.push(attachment);
+        attachment.id = -1;
+        attachment.idArticle = this.dummy_article.id;
+        attachment.attachmentUrl = url;
+        this.dummy_article.attachmentArray.push(attachment);
       });
       element.value = '';
     }
   }
 
   onFileRemove(event: Event, index: number) {
-    this.dummy_article.attachment_array.splice(index, 1);
+    this.dummy_article.attachmentArray.splice(index, 1);
   }
 
 }

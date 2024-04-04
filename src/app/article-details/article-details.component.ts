@@ -25,36 +25,50 @@ export class ArticleDetailsComponent {
   author!: User;
   category!: Category;
 
-  valid: boolean = true;
+  valid: boolean = false;
   access: boolean = false;
 
-  user(): User|undefined {
-    return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
-  }
+  user: User|undefined;
   
   constructor (private route: ActivatedRoute,
                private articleService: ArticleService, 
                private userService: UserService,
                private categoryService: CategoryService) {
-
-    let article_id = Number(this.route.snapshot.paramMap.get('id'));
     
-    if (articleService.any(article_id)) {
-      this.article = this.articleService.byId(article_id);
-      this.author = this.userService.byId(this.article.id_author);
-      this.category = this.categoryService.byId(this.article.id_category);
+    let article_id = Number(this.route.snapshot.paramMap.get('id'));
 
-      let loggedIn = this.user();
-      if (loggedIn != undefined) {
-        if (this.article.id_author == loggedIn.id) {
-          this.access = true;
+    this.articleService.any(article_id)
+      .subscribe((ifAny) => {
+        if (ifAny) {
+          this.valid = true;
+
+          this.articleService.byId(article_id)
+            .subscribe((article) => {
+              this.article = article;
+
+              this.userService.byId(this.article.idAuthor)
+                .subscribe(author => {
+                  this.author = author;
+                  
+                  this.categoryService.byId(this.article.idCategory)
+                    .subscribe(category => {
+                      this.category = category;
+
+                      this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
+                      .subscribe(loggedIn => {
+                        this.user = loggedIn;
+                        if (loggedIn != undefined) {
+                          if (this.article.idAuthor == loggedIn.id) {
+                            this.access = true;
+                          }
+                        }
+                      });
+
+                    })
+                }); 
+            });
         }
-      }
-    }
-    else {
-      this.valid = false;
-    }
-
+      });
   }
 
   delete() {
@@ -62,7 +76,7 @@ export class ArticleDetailsComponent {
       let articleName = this.article.name;
       let deleted = this.articleService.delete(this.article);
       if (deleted) {
-        SavesService.save(this.articleService);
+        // SavesService.save(this.articleService);
 
         StatusService.crossPageStatus("Articolul a fost șters: \"" + articleName + "\"");
         window.location.replace("/articles");

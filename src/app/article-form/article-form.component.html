@@ -2,7 +2,7 @@
     <input required id="name" name="name" type="text" [(ngModel)]="dummy_article.name" placeholder="Articol Nou">
     <textarea required id="summary" name="summary" [(ngModel)]="dummy_article.summary" placeholder="Descrierea articolului"></textarea>
     <div class="combo">
-        <select required id="category" name="category" type="category" [(ngModel)]="dummy_article.id_category">
+        <select required id="category" name="category" type="category" [(ngModel)]="dummy_article.idCategory">
             <option value="category.id" [ngValue]="category.id" *ngFor="let category of categories">
                 {{ category.name }}
             </option>
@@ -14,8 +14,8 @@
     </label>
     <div id="FormAttachments">
         <div class="list" 
-        *ngFor="let attachment of dummy_article.attachment_array; index as i">
-            <img src="{{attachment.attachment_url}}" >
+        *ngFor="let attachment of dummy_article.attachmentArray; index as i">
+            <img src="{{attachment.attachmentUrl}}" >
             <button (click)="onFileRemove($event, i)"><i class="fas fa-times"></i></button>
         </div>
     </div>

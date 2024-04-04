@@ -15,33 +15,40 @@ import { NoAccessComponent } from '../no-access/no-access.component';
 })
 export class UserLoginComponent {
 
-  valid: boolean = true;
+  valid: boolean = false;
 
   email: string = "";
   password: string = "";
 
   constructor(private userService: UserService) {
-    let user = this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
-    if (user != undefined) {
-      this.valid = false;
-    }
+    this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
+      .subscribe((user) => {
+        if (user == undefined) {
+          this.valid = true;
+        }
+      });
   }
 
   login(): void {
-    let userId = this.userService.idByDetails(this.email, this.password) //TODO: obfuscate password
-    
-    if (userId <= 0) {
-      StatusService.showStatus("Adresa de e-mail sau parola nu sunt corecte.");
-      return;
-    }
-    
-    let user = this.userService.byId(userId);
-    let sessionToken = this.userService.generateSession(user);
+    this.userService.idByDetails(this.email, this.password)
+      .subscribe(userId => {
 
-    window.sessionStorage.setItem("USER_SESSION_TOKEN", sessionToken);
-    SavesService.save(this.userService);
+        if (userId <= 0) {
+          StatusService.showStatus("Adresa de e-mail sau parola nu sunt corecte.");
+          return;
+        }
 
-    window.location.replace("/articles");
+        this.userService.byId(userId)
+          .subscribe((user) => {
+            this.userService.generateSession(user)
+              .subscribe((sessionToken) => {
+                window.sessionStorage.setItem("USER_SESSION_TOKEN", sessionToken);
+                window.location.replace("/articles");
+              });
+            
+          });
+          
+      })
   }
 
 }

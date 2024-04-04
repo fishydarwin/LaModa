@@ -21,49 +21,55 @@ import { User } from '../user';
 })
 export class ArticleEditComponent {
 
-  valid: boolean = true;
-  access: boolean = true;
+  valid: boolean = false;
+  access: boolean = false;
 
   dummy_article: Article = 
-    // TODO: change author id from 1 to be user-aware
-    { id: -1, id_author: -1, id_category: 1, 
+    { id: -1, idAuthor: -1, idCategory: 1, 
       name: "Articol Nou", summary: "", 
-      attachment_array: [],
-      creation_date: new Date()
+      attachmentArray: [],
+      // creationDate: new Date()
     };
 
-  user(): User|undefined {
-    return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
-  }
+  user: User|undefined;
 
   constructor (private route: ActivatedRoute,
                private userService: UserService,
                private articleService: ArticleService) {
 
       let article_id = Number(this.route.snapshot.paramMap.get('id'));
-
-      if (articleService.any(article_id)) {
-        this.dummy_article = this.articleService.byId(article_id);
-
-        let loggedIn = this.user();
-        if (loggedIn == undefined) {
-          this.access = false;
-          return;
-        }
-
-        if (this.dummy_article.id_author != loggedIn.id) {
-          this.access = false;
-        }
-
-        this.dummy_article.id_author = loggedIn.id;
-      }
-      else {
-        this.valid = false;
-      }
+      
+      articleService.any(article_id)
+        .subscribe((ifAny) => {
+          if (ifAny) {
+            this.valid = true;
+            this.articleService.byId(article_id)
+              .subscribe((article) => {
+                this.dummy_article = article;
+    
+                this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
+                  .subscribe(loggedIn => {
+                    this.user = loggedIn;
+    
+                    if (loggedIn == undefined) {
+                      return;
+                    }
+            
+                    if (this.dummy_article.idAuthor != loggedIn.id) {
+                      return;
+                    }
+    
+                    this.access = true;
+            
+                    this.dummy_article.idAuthor = loggedIn.id;
+                  });
+              });
+          }
+        })
   }
 
   getUserById() {
-    return this.user();
+    return this.user;
   }
 
   editArticle() {
@@ -73,10 +79,10 @@ export class ArticleEditComponent {
       return;
     }
 
-    let articleId = this.articleService.update(this.dummy_article);
-    SavesService.save(this.articleService);
-
-    window.location.replace("/article/" + articleId);
+    this.articleService.update(this.dummy_article)
+      .subscribe((articleId) => {
+        window.location.replace("/article/" + articleId);
+      });
   }
 
 }

@@ -10,11 +10,11 @@
             <div>
                 <h3 class="dm-serif name">{{article.name}}</h3>
                 <div class="attachment-list">
-                    <img class="attachment" src="{{attachment.attachment_url}}" 
-                        *ngFor="let attachment of article.attachment_array">
+                    <img class="attachment" src="{{attachment.attachmentUrl}}" 
+                        *ngFor="let attachment of article.attachmentArray">
                 </div>
                 <p class="syne-regular summary">{{article.summary}}</p>
-                <h5 class="author"><i class="fas fa-user"></i> {{ getUserById(article.id_author).name }}</h5>
+                <h5 class="author"><i class="fas fa-user"></i> {{ getUserById(article.idAuthor).name }}</h5>
             </div>
         </div>
     </a>

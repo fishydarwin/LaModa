@@ -2,7 +2,7 @@ export interface User {
     id: number;
 
     name: string;
-    password_obfuscated: string;
+    passwordObfuscated: string;
     email: string;
 
     role: string; // will forever be user, mod, or admin
@@ -22,10 +22,10 @@ export class UserValidator {
         if (user.name.trim().length > 100) {
             return "Numele dvs trebuie să fie cel mult 100 de caractere.";
         }
-        if (user.password_obfuscated.trim().length < 8) {
+        if (user.passwordObfuscated.trim().length < 8) {
             return "Parola dvs. trebuie să conțină cel putin 8 caractere.";
         }
-        if (!this.PASSWORD_REGEX.test(user.password_obfuscated)) {
+        if (!this.PASSWORD_REGEX.test(user.passwordObfuscated)) {
             return "Parola dvs. trebuie să conțină doar litere sau cifre.";
         }
         if (!this.EMAIL_REGEX.test(user.email)) {

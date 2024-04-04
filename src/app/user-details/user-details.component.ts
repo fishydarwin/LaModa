@@ -16,26 +16,35 @@ import { PopupService } from '../popup.service';
 })
 export class UserDetailsComponent {
   user!: User;
-  valid: boolean = true;
+  valid: boolean = false;
   access: boolean = false;
 
   constructor (private route: ActivatedRoute,
                private userService: UserService) {
+                let user_id = Number(this.route.snapshot.paramMap.get('id'));
 
-    let user_id = Number(this.route.snapshot.paramMap.get('id'));
-    if (userService.any(user_id)) {
-      this.user = this.userService.byId(user_id);
+    this.userService.any(user_id)
+      .subscribe((iff) => {
 
-      let loggedIn = this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
-      if (loggedIn != undefined) {
-        if (loggedIn.id == user_id) {
-          this.access = true;
+        if (iff) {
+          this.valid = true;
+          this.userService.byId(user_id)
+            .subscribe((user) => {
+              this.user = user;
+
+              this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
+                .subscribe((loggedIn) => {
+                  if (loggedIn != undefined) {
+                    if (loggedIn.id == user_id) {
+                      this.access = true;
+                    }
+                  }
+                });
+
+            });
         }
-      }
-    }
-    else {
-      this.valid = false;
-    }
+
+      });
   }
 
   logout(): void {

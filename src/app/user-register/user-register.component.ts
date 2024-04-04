@@ -16,7 +16,7 @@ import { NoAccessComponent } from '../no-access/no-access.component';
 })
 export class UserRegisterComponent {
   
-  valid: boolean = true;
+  valid: boolean = false;
 
   name: string = "";
   email: string = "";
@@ -24,43 +24,53 @@ export class UserRegisterComponent {
   confirmPassword: string = "";
 
   constructor(private userService: UserService) {
-    let user = this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
-    if (user != undefined) {
-      this.valid = false;
-    }
+    this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
+      .subscribe(user => {
+        if (user == undefined) {
+          this.valid = true;
+        }
+      });
   }
 
   register(): void {
 
-    if (this.userService.anyByEmail(this.email)) {
-      StatusService.showStatus("Există deja un utilizator cu această adresă de e-mail.");
-      return;
-    }
+    this.userService.anyByEmail(this.email)
+      .subscribe(ifEmail => {
 
-    let dummy_user: User = {
-      id: -1, name: this.name, email: this.email, password_obfuscated: this.password, role: "user"
-    };
+        if (ifEmail) {
+          StatusService.showStatus("Există deja un utilizator cu această adresă de e-mail.");
+          return;
+        }
 
-    let validation = UserValidator.validate(dummy_user);
-    if (validation != "OK") {
-      StatusService.showStatus(validation);
-      return;
-    }
-
-    if (this.password != this.confirmPassword) {
-      StatusService.showStatus("Parolele trebuie să coincidă.");
-      return;
-    }
-
-    let userId = this.userService.add(dummy_user);
-    let user = this.userService.byId(userId);
+        let dummy_user: User = {
+          id: -1, name: this.name, email: this.email, passwordObfuscated: this.password, role: "user"
+        };
     
-    let sessionToken = this.userService.generateSession(user);
-    window.sessionStorage.setItem("USER_SESSION_TOKEN", sessionToken);
+        let validation = UserValidator.validate(dummy_user);
+        if (validation != "OK") {
+          StatusService.showStatus(validation);
+          return;
+        }
+    
+        if (this.password != this.confirmPassword) {
+          StatusService.showStatus("Parolele trebuie să coincidă.");
+          return;
+        }
+    
+        this.userService.add(dummy_user)
+          .subscribe((userId) => {
+            this.userService.byId(userId)
+              .subscribe((user) => {
+                this.userService.generateSession(user)
+                  .subscribe((sessionToken) => {
+                    window.sessionStorage.setItem("USER_SESSION_TOKEN", sessionToken);
+                    window.location.replace("/articles");
+                  });
+                
+              });
+          });
 
-    SavesService.save(this.userService);
-    window.location.replace("/articles");
-
+      })
   }
 
 }

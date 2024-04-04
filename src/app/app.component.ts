@@ -20,8 +20,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class AppComponent {
   title = 'laModă';
   searchText = "";
+  
+  user: User|undefined;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+    this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
+      .subscribe((user) => this.user = user);
+  }
 
   hasStatus(): boolean {
     return StatusService.has();
@@ -29,10 +34,6 @@ export class AppComponent {
 
   getStatus(): string {
     return StatusService.get();
-  }
-  
-  user(): User|undefined {
-    return this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'));
   }
 
   search() {
