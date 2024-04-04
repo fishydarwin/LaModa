@@ -74,16 +74,16 @@ export class ArticleDetailsComponent {
   delete() {
     PopupService.acceptCallback = () => {
       let articleName = this.article.name;
-      let deleted = this.articleService.delete(this.article);
-      if (deleted) {
-        // SavesService.save(this.articleService);
-
-        StatusService.crossPageStatus("Articolul a fost șters: \"" + articleName + "\"");
-        window.location.replace("/articles");
-      }
-      else {
-        StatusService.crossPageStatus("A intervenit o eroare, nu se poate șterge acest articol!");
-      }
+      this.articleService.delete(this.article)
+        .subscribe((deleted) => {
+          if (deleted) {
+            StatusService.crossPageStatus("Articolul a fost șters: \"" + articleName + "\"");
+            window.location.replace("/articles");
+          }
+          else {
+            StatusService.crossPageStatus("A intervenit o eroare, nu se poate șterge acest articol!");
+          }
+        });
       PopupService.setMessage("");
     };
     PopupService.cancelCallback = () => {};

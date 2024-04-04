@@ -103,7 +103,7 @@ export class ArticleService {
 
   /* DELETE */
   delete(article: Article): Observable<boolean> {
-    return this.http.delete<boolean>("http://localhost:8080/user/delete/" + article.id);
+    return this.http.delete<boolean>("http://localhost:8080/article/delete/" + article.id);
   }
 
 }
