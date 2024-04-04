@@ -2,6 +2,8 @@
 
 A fictional website (in Romanian) which lets users post articles of their latest in-fashion clothing, make-up, manicure and so on... Front-end is Angular, and back-end is Java Spring.
 
+[You must use this alongside its back-end](https://github.com/fishydarwin/LaModaBackend)
+
 ![Showcase](https://i.imgur.com/8BA3neN.png)
 
 This project was originally created for my university class.  
@@ -12,8 +14,10 @@ I am actively working on finishing this implementation:
 - CRUD Operations ✅
 - Unit Testing ✅
 - User Features ✅
-- Back-end server 🟡
-- Back-end 🔴
+- Back-end server ✅ [Back-end](https://github.com/fishydarwin/LaModaBackend)
+- Back-end details 🟡
+- Back-end SQL database 🔴
+- Security check: no CSRF, no cross-origin, no SQL Injection 🔴
 
 ✅ - done | 🟡 - roughly 50% done | 🔴 - not yet started
 
