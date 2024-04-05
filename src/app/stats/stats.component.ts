@@ -59,9 +59,6 @@ export class StatsComponent {
   constructor(private articleService: ArticleService,
               private categoryService: CategoryService,
               private userService: UserService) {
-  }
-
-  ngInit() {
     this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
       .subscribe((user) => {
         if (user == undefined) {

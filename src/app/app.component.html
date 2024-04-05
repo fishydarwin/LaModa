@@ -22,12 +22,25 @@
     </header>
     <app-navbar></app-navbar>
     <section id="MainAppGrower">
-        <div id="MainApp">
+        <div id="MainApp" *ngIf="connected && internet; else buffering">
             <div id="StatusBar" *ngIf="hasStatus()">
                 <p><i class="fas fa-info-circle"></i>&emsp;&emsp; {{ getStatus() }}</p>
             </div>
             <router-outlet></router-outlet>
-        </div>    
+        </div>
+        <ng-template #buffering>
+            <div id="Buffer">
+                <div id="StatusBar" *ngIf="hasStatus()">
+                    <p><i class="fas fa-info-circle"></i>&emsp;&emsp; {{ getStatus() }}</p>
+                </div>
+                <div id="ConnectionBuffering">
+                    <h1>Loading...</h1>
+                    <div id="BufferSpinIcon">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
     </section>
     <footer>
         <div id="Footer">

@@ -118,6 +118,7 @@
     min-width: 50%;
     width: 50%;
 
+
     p {
         margin: 0;
         padding: 0;
@@ -127,5 +128,37 @@
         font-size: 12px;
         margin: 0;
         padding: 0;
+        color: #e89d5b;
     }
 }
+
+#Buffer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#ConnectionBuffering {
+    display: flex;
+    flex-direction: column;
+
+    #BufferSpinIcon {
+        display: flex;
+        justify-content: center;
+    }
+
+    i {
+        color: var(--color-accent1);
+        font-size: 36px;
+        animation-name: ConnectionBufferSpin;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+}
+
+@keyframes ConnectionBufferSpin {
+    from {transform: rotate(0deg); }
+    to {transform: rotate(180deg); }
+  }
+  
