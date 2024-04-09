@@ -63,7 +63,7 @@ export class AppComponent {
 
   private checkInternet() {
     setInterval(() => {
-      fetch('//google.com', {
+      fetch('https://google.com', {
           mode: 'no-cors',
       })
       .then(() => {
