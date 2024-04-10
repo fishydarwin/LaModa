@@ -47,7 +47,7 @@ export class ArticlesComponent {
         })
       });
 
-    this.initUpdateSocket();
+    articleService.subscribeToSocket(this, () => this.getArticles() );
   }
 
   ngOnInit() {
@@ -98,49 +98,6 @@ export class ArticlesComponent {
     this.current_page = page;
     this.getArticles();
     window.scroll(0, 0);
-  }
-  
-  /* WEBSOCKET UPDATE */
-
-  private stompClient: CompatClient = Stomp.client("ws://localhost:8080/ws");
-  private lastUpdateTimeStamp: number = Date.now().valueOf();
-
-  makeUpdateSocket() {
-    
-    this.stompClient.onConnect = (frame) => {
-        this.stompClient.subscribe('/article', (result) => {
-          if (this.lastUpdateTimeStamp < JSON.parse(result.body)) {
-            this.getArticles();
-          }
-        });
-    };
-    
-    this.stompClient.onWebSocketError = (error) => {
-        console.error('Error with update websocket', error);
-    };
-    
-    this.stompClient.onStompError = (frame) => {
-        console.error('Broker reported error: ' + frame.headers['message']);
-        console.error('Additional details: ' + frame.body);
-    };
-
-    this.stompClient.activate();
-  }
-  
-  requestUpdateSocket() {
-    if (this.stompClient == null) return;
-    this.stompClient.publish({
-      destination: "/app/article-time",
-      body: "{}"
-    });
-  }
-
-  initUpdateSocket() {
-    this.makeUpdateSocket();
-
-    setInterval(() => {
-      this.requestUpdateSocket();
-    }, 8000);
   }
 
 }

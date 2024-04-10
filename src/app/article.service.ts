@@ -3,6 +3,7 @@ import { Article } from './article';
 import { Observable, of } from 'rxjs';
 import { PagedResult } from './pagedresult';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { CompatClient, Stomp } from '@stomp/stompjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class ArticleService {
   constructor(private http: HttpClient) {
     // SavesService.load(this);
     // this.last_available_id = ARTICLES.length + 1;
+    this.initUpdateSocket();
   }
 
   /* READ */
@@ -92,18 +94,66 @@ export class ArticleService {
   // last_available_id = 0;
 
   add(article: Article): Observable<number> {
+    this.requestUpdateSocket();
     return this.http.post<number>("http://localhost:8080/article/add", article);
   }
 
   /* UPDATE */
 
   update(article: Article): Observable<number> {
+    this.requestUpdateSocket();
     return this.http.put<number>("http://localhost:8080/article/update/" + article.id, article);
   }
 
   /* DELETE */
   delete(article: Article): Observable<boolean> {
+    this.requestUpdateSocket();
     return this.http.delete<boolean>("http://localhost:8080/article/delete/" + article.id);
+  }
+
+  /* WEBSOCKET UPDATE */
+
+  private stompClient: CompatClient = Stomp.client("ws://localhost:8080/ws");
+  private lastUpdateTimeStamp: number = Date.now().valueOf();
+
+  private callableMap: Map<any, Function> = new Map<any, Function>();
+
+  private makeUpdateSocket() {
+    
+    this.stompClient.onConnect = () => {
+        this.stompClient.subscribe('/article', (result) => {
+          if (this.lastUpdateTimeStamp < JSON.parse(result.body)) {
+            this.callableMap.forEach((value, key) => { value.call(key); })
+          }
+        });
+    };
+    
+    this.stompClient.onWebSocketError = (error) => {
+        console.error('Error with update websocket', error);
+    };
+    
+    this.stompClient.onStompError = (frame) => {
+        console.error('Broker reported error: ' + frame.headers['message']);
+        console.error('Additional details: ' + frame.body);
+    };
+
+    this.stompClient.activate();
+  }
+  
+  private requestUpdateSocket() {
+    if (this.stompClient == null) return;
+    this.stompClient.publish({
+      destination: "/app/article-time",
+      body: "{}"
+    });
+  }
+
+  private initUpdateSocket() {
+    this.makeUpdateSocket();
+  }
+
+  subscribeToSocket(self: any, callable: Function) {
+    this.callableMap.set(self, callable);
   }
 
 }
