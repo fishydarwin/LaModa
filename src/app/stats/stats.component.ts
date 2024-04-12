@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ArticleService } from '../article.service';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartData } from 'chart.js';
+import { ChartData, Chart } from 'chart.js';
 import { CategoryService } from '../category.service';
 import { UserService } from '../user.service';
 import { Article } from '../article';
@@ -9,6 +9,7 @@ import { User } from '../user';
 import { Category } from '../category';
 import { NgIf } from '@angular/common';
 import { NoAccessComponent } from '../no-access/no-access.component';
+import { repeat } from 'rxjs';
 
 @Component({
   selector: 'app-stats',
@@ -20,7 +21,7 @@ import { NoAccessComponent } from '../no-access/no-access.component';
 export class StatsComponent {
 
   access: boolean = false;
-
+  
   barChartData: ChartData<'bar', {key: string, value: number} []> = {
     datasets: [{
       type: 'bar',
@@ -64,7 +65,7 @@ export class StatsComponent {
         if (user == undefined) {
           return;
         }
-        if (user.role != "admin") {
+        if (user.role != "ADMIN") {
           return;
         }
         this.access = true;
@@ -82,31 +83,64 @@ export class StatsComponent {
   private users_all: User[] = [];
 
   ngOnInit() {
+    this.categoryService.all().subscribe((categories) => { 
+      this.categories_all = categories;
+    })
 
-    this.articleService.all().subscribe((result) => { this.articles_size = result.size; });
-    this.categoryService.all().subscribe((categories) => { this.categories_all = categories; })
-    this.userService.all().subscribe((users) => { this.users_all = users; });
+    this.userService.all().subscribe((users) => { 
+      this.users_all = users; 
+    });
 
-    this.pieChartData.datasets[0].data.push(
-      {key: 'Articole', value: this.articles_size }
-    );
-    this.barChartData.datasets[0].data.push(
-      {key: 'Articole', value: this.articles_size }
-    );
+    this.articleService.all().subscribe((result) => { 
+      this.articles_size = result.size; 
 
-    this.pieChartData.datasets[0].data.push(
-      {key: 'Categorii', value: this.categories_all.length }
-    );
-    this.barChartData.datasets[0].data.push(
-      {key: 'Categorii', value: this.categories_all.length }
-    );
+      this.pieChartData.datasets[0].data.push(
+        {key: 'Articole', value: this.articles_size }
+      );
+      this.barChartData.datasets[0].data.push(
+        {key: 'Articole', value: this.articles_size }
+      );
+  
+      this.pieChartData.datasets[0].data.push(
+        {key: 'Utilizatori', value: this.users_all.length }
+      );
+      this.barChartData.datasets[0].data.push(
+        {key: 'Utilizatori', value: this.users_all.length }
+      );
+  
+      this.pieChartData.datasets[0].data.push(
+        {key: 'Categorii', value: this.categories_all.length }
+      );
+      this.barChartData.datasets[0].data.push(
+        {key: 'Categorii', value: this.categories_all.length }
+      );
 
-    this.pieChartData.datasets[0].data.push(
-      {key: 'Utilizatori', value: this.users_all.length }
-    );
-    this.barChartData.datasets[0].data.push(
-      {key: 'Utilizatori', value: this.users_all.length }
-    );
+      let prevState = this.chartState;
+      this.chartState = 2;
+      setTimeout(() => {
+        this.chartState = prevState;
+      }, 1);
+
+    });
+
+    this.articleService.subscribeToSocket(this, () => {
+
+      this.articleService.all().subscribe((result) => { 
+        this.articles_size = result.size; 
+      });
+      
+      this.pieChartData.datasets[0].data.find(
+        (item) => item.key == 'Articole')!.value = this.articles_size;
+      this.barChartData.datasets[0].data.find(
+        (item) => item.key == 'Articole')!.value = this.articles_size;
+
+      let prevState = this.chartState;
+      this.chartState = 2;
+      setTimeout(() => {
+        this.chartState = prevState;
+      }, 1);
+      
+    });
   }
 
 }
