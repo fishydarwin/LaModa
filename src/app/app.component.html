@@ -1,18 +1,21 @@
 <div id="MainWrapper">
     <header>
         <div id="Header">
-            <a href="/index.html">
-                <h1 class="dm-serif"><i class="fas fa-icons"></i>&nbsp;&nbsp;laModă</h1>
-            </a>
-            <div id="HeaderMenu">
+            <div id="HeaderMenuLeft">
+                <a href="/index.html">
+                    <h1 class="dm-serif"><i class="fas fa-icons"></i>&nbsp;&nbsp;laModă</h1>
+                </a>
+            </div>
+            <div id="HeaderMenuCenter">
+                <app-navbar></app-navbar>
                 <input type="text" name="searchText" [(ngModel)]="searchText" placeholder="Caută articole" (keydown.enter)="search()">
+            </div>
+            <div id="HeaderMenuRight">
                 <div id="HeaderMenuInner" *ngIf="user != undefined; else noUser">
                     <a href="/article/create" class="button"><i class="fas fa-plus"></i>&nbsp;Articol Nou</a>
-                    <!-- TODO: TRENDING POSTS -->
-                    <!-- <a href="#"><i class="fas fa-fire-alt"></i></a> -->
                     <!-- TODO: NOTIFICATIONS -->
-                    <!-- <a href="#"><i class="fas fa-bell"></i></a> -->
-                    <a href="user/{{ user.id }}"><i class="fas fa-user-circle"></i></a>
+                    <!-- <a href="#"><i class="fas fa-bell button"></i></a> -->
+                    <a href="user/{{ user.id }}"><i class="fas fa-user-circle button"></i></a>
                 </div>
                 <ng-template #noUser>
                     <a href="user/login" class="button"><i class="fas fa-sign-in-alt"></i>&nbsp;Contul tău</a>
@@ -20,7 +23,6 @@
             </div>
         </div>
     </header>
-    <app-navbar></app-navbar>
     <section id="MainAppGrower">
         <div id="MainApp" *ngIf="connected && internet; else buffering">
             <div id="StatusBar" *ngIf="hasStatus()">

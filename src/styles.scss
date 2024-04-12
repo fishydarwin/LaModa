@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lobster&family=Syne:wght@400..800&family=Cookie&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lobster&family=Syne:wght@400..800&family=Cookie&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @property --color-main1 {
     syntax: "<color>";
@@ -81,7 +81,7 @@
 @property --color-bg {
     syntax: "<color>";
     inherits: false;
-    initial-value: #FBF9F1;
+    initial-value: #f7f6f1;
 }
 
 @property --color-status {
@@ -109,7 +109,7 @@
 }
 
 * {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
 
 html {
@@ -118,7 +118,7 @@ html {
 
 body {
     background: var(--color-bg);
-    background-image: url('/assets/stripes.png');
+    // background-image: url('/assets/stripes.png');
     background-repeat: repeat;
     margin: 0px;
     min-height: 100%;

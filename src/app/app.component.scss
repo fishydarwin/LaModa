@@ -10,17 +10,8 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 8px 32px 8px 32px;
-
-    /* https://cssgradient.io */
-    background: rgb(163,212,251);
-    background: -moz-linear-gradient(0deg, rgba(163,212,251,1) 0%, rgba(121,180,227,1) 100%);
-    background: -webkit-linear-gradient(0deg, rgba(163,212,251,1) 0%, rgba(121,180,227,1) 100%);
-    background: linear-gradient(0deg, rgba(163,212,251,1) 0%, rgba(121,180,227,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a3d4fb",endColorstr="#79b4e3",GradientType=1);
-
-    h1 {
-        color: rgb(64, 68, 71);
-    }
+    // background-color: var(--color-main3);
+    background-color: rgba(240,239,233);
 
     a.button {
         margin-left: 10px;
@@ -28,22 +19,60 @@
         padding: 4px 8px;
         font-size: medium;
         background: var(--color-muted3);
+        color: white;
 
         &:hover {
             background: var(--color-muted-link-hover);
         }
     }
+    
 }
 
-#HeaderMenu {
+#HeaderMenuLeft {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    a {
+        margin-right: 24px;
+        h1 {
+            // background: -webkit-linear-gradient(var(--color-main1), var(--color-main3) 85%, var(--color-muted1));
+            // -webkit-background-clip: text;
+            // -webkit-text-fill-color: transparent;
+            color: var(--color-muted3);
+            line-height: 0;
+            margin-left: 6px;
+            margin-right: 6px;
+        }
+    }
+}
+
+#HeaderMenuCenter {
+    display: flex;
+    align-items: center;
+
+    input[type=text] {
+        padding: 5px 16px;
+        border-radius: 18px;
+        border: 1px solid var(--color-muted2);
+        width: 160px;
+    }
+    
+}
+
+#HeaderMenuRight {
     display: flex;
     justify-content: space-evenly;
-    width: fit-content;
     align-items: center;
+    width: fit-content;
     
-    a {
+    i.button {
         font-size: 28px;
-        padding: 0 8px 0 8px;
+        // color: var(--color-main3);
+
+        // &:hover {
+        //     color: var(--color-main4);
+        // }
     }
 }
 
@@ -113,11 +142,10 @@
     padding: 4px 16px;
     padding-left: 10px;
     font-size: small;
-    box-shadow: 0.5px 1px 2px var(--color-muted2);
+    box-shadow: 0px 1px 2px var(--color-disabled);
     margin: 6px;
     min-width: 50%;
     width: 50%;
-
 
     p {
         margin: 0;

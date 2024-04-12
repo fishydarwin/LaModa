@@ -1,16 +1,27 @@
 #SectionTitle {
-    font-size: 52px; 
+    font-size: 42px; 
     margin: 6px;
+    margin-bottom: 32px;
     background: -webkit-linear-gradient(var(--color-muted1), var(--color-accent2), var(--color-accent2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
 
     i {
-        font-size: 30px;
+        font-size: 28px;
         background: -webkit-linear-gradient(var(--color-main1), var(--color-main3) 85%, var(--color-muted1));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+
+    p {
+        font-size: medium;
+        color: var(--color-disabled);
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: initial;
+        span {
+            font-size: large;
+        }
     }
 }
 
@@ -31,10 +42,10 @@
     max-width: 250px;
     width: 250px;
     height: 92%;
-    background: var(--color-main1);
-    background: linear-gradient(180deg, var(--color-main5) 0%, var(--color-main3) 50%, var(--color-main3) 100%);
+    background: var(--color-main5);
+    // background: linear-gradient(180deg, var(--color-main5) 0%, var(--color-main3) 50%, var(--color-main3) 100%);
     // border-radius: 12px;
-    box-shadow: 0 2px 3px var(--color-muted2);
+    box-shadow: 0 2px 3px var(--color-disabled);
 }
 
 .article-item * {

@@ -1,8 +1,9 @@
-<h1 class="cookie-regular" id="SectionTitle" 
+<h1 class="dm-serif" id="SectionTitle" 
     *ngIf="id_author <= 0 && id_category <= 0 && dummy_article == null && match_text == ''">
     <i class="fas fa-gem"></i>&nbsp;
     Ai stil&nbsp;
     <i class="fas fa-gem"></i>
+    <p>Cauți un look nou? Alătură-te comunității noastre și poți găsi orice stil <span class="dm-serif">laModă</span>.</p>
 </h1>
 <div id="ArticleList">
     <a class="article-item-link" [routerLink]="dummy_article == null ? ['/article', article.id] : []" *ngFor="let article of articles | paginate: { itemsPerPage: 9, currentPage: current_page, totalItems: total}">
@@ -13,7 +14,7 @@
                     <img class="attachment" src="{{attachment.attachmentUrl}}" 
                         *ngFor="let attachment of article.attachmentArray">
                 </div>
-                <p class="syne-regular summary">{{article.summary}}</p>
+                <p class="summary">{{article.summary}}</p>
                 <h5 class="author"><i class="fas fa-user"></i> {{ getUserById(article.idAuthor).name }}</h5>
             </div>
         </div>

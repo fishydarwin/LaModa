@@ -47,17 +47,23 @@ export class ArticlesComponent {
         })
       });
 
-    articleService.subscribeToSocket(this, () => this.getArticles() );
+    if (this.dummy_article == null) {
+      articleService.subscribeToSocket(this, () => this.getArticles() );
+    }
   }
 
   ngOnInit() {
     this.getArticles();
   }
 
+  private filledDummyArticle = false;
   getArticles(): void {
     
     if (this.dummy_article != null) {
-      this.articles.push(this.dummy_article);
+      if (!this.filledDummyArticle) {
+        this.articles.push(this.dummy_article);
+        this.filledDummyArticle = true;
+      }
     }
     else if (this.id_category > 0) {
       this.articleService.ofCategory(this.id_category, this.current_page)
