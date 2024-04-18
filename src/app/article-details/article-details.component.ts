@@ -27,6 +27,7 @@ export class ArticleDetailsComponent {
 
   valid: boolean = false;
   access: boolean = false;
+  loaded: boolean = false;
 
   user: User|undefined;
   
@@ -62,12 +63,13 @@ export class ArticleDetailsComponent {
                             this.access = true;
                           }
                         }
+                        this.loaded = true;
                       });
 
                     })
                 }); 
             });
-        }
+        } else { this.loaded = true; }
       });
   }
 

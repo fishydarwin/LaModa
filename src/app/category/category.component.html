@@ -4,5 +4,5 @@
     <app-articles [id-category]="category.id"></app-articles>
 </div>
 <ng-template #notFound>
-    <app-page-not-found></app-page-not-found>
+    <app-page-not-found *ngIf="loaded"></app-page-not-found>
 </ng-template>

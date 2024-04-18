@@ -20,6 +20,7 @@ import { NoAccessComponent } from '../no-access/no-access.component';
 export class ArticleCreateComponent {
   
   valid = false;
+  loaded = false;
 
   dummy_article: Article = 
     { id: -1, idAuthor: -1, idCategory: 1, 
@@ -36,10 +37,14 @@ export class ArticleCreateComponent {
     this.userService.fromSession(window.sessionStorage.getItem('USER_SESSION_TOKEN'))
       .subscribe(user => {
         this.user = user;
-        if (user == undefined) return;
+        if (user == undefined) {
+          this.loaded = true;
+          return;
+        }
 
         this.valid = true;
         this.dummy_article.idAuthor = user.id;
+        this.loaded = true;
       });
   }
 

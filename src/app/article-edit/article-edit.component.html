@@ -13,9 +13,9 @@
 </div>
 <ng-template #notFound>
     <ng-container *ngIf="access; else noAccess">
-        <app-page-not-found></app-page-not-found>
+        <app-page-not-found *ngIf="loaded"></app-page-not-found>
     </ng-container>
 </ng-template>
 <ng-template #noAccess>
-    <app-no-access></app-no-access>
+    <app-no-access *ngIf="loaded"></app-no-access>
 </ng-template>

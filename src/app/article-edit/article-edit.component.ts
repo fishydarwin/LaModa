@@ -23,6 +23,7 @@ export class ArticleEditComponent {
 
   valid: boolean = false;
   access: boolean = false;
+  loaded: boolean = false;
 
   dummy_article: Article = 
     { id: -1, idAuthor: -1, idCategory: 1, 
@@ -52,19 +53,22 @@ export class ArticleEditComponent {
                     this.user = loggedIn;
     
                     if (loggedIn == undefined) {
+                      this.loaded = true;
                       return;
                     }
             
                     if (this.dummy_article.idAuthor != loggedIn.id) {
+                      this.loaded = true;
                       return;
                     }
     
                     this.access = true;
             
                     this.dummy_article.idAuthor = loggedIn.id;
+                    this.loaded = true;
                   });
               });
-          }
+          } else { this.loaded = true; }
         })
   }
 

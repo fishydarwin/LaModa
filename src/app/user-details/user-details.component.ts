@@ -18,6 +18,7 @@ export class UserDetailsComponent {
   user!: User;
   valid: boolean = false;
   access: boolean = false;
+  loaded: boolean = false;
 
   constructor (private route: ActivatedRoute,
                private userService: UserService) {
@@ -39,10 +40,11 @@ export class UserDetailsComponent {
                       this.access = true;
                     }
                   }
+                  this.loaded = true;
                 });
 
             });
-        }
+        } else { this.loaded = true; }
 
       });
   }

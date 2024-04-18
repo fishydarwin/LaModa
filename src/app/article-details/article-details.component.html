@@ -23,5 +23,5 @@
     </div>
 </div>
 <ng-template #notFound>
-    <app-page-not-found></app-page-not-found>
+    <app-page-not-found *ngIf="loaded"></app-page-not-found>
 </ng-template>

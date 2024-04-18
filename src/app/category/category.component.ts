@@ -16,6 +16,7 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 export class CategoryComponent {
   category!: Category;
   valid: boolean = false;
+  loaded: boolean = false;
 
   constructor (private route: ActivatedRoute,
                private categoryService: CategoryService) {
@@ -27,8 +28,8 @@ export class CategoryComponent {
         if (ifAny) {
           this.valid = true;
           this.categoryService.byId(category_id)
-            .subscribe(category => this.category = category)
-        }
+            .subscribe(category => { this.category = category; this.loaded = true; })
+        } else { this.loaded = true; }
       })
   }
 }

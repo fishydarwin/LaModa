@@ -36,6 +36,8 @@ export class ArticlesComponent {
   articles: Article[] = [];
   users: { [id: number] : User } = {};
 
+  loaded: boolean = false;
+
   constructor(private articleService: ArticleService, 
               private userService: UserService) {
                 
@@ -63,6 +65,7 @@ export class ArticlesComponent {
       if (!this.filledDummyArticle) {
         this.articles.push(this.dummy_article);
         this.filledDummyArticle = true;
+        this.loaded = true;
       }
     }
     else if (this.id_category > 0) {
@@ -70,6 +73,7 @@ export class ArticlesComponent {
         .subscribe((result) => {
           this.articles = result.result;
           this.total = result.size;
+          this.loaded = true;
         });
     }
     else if (this.match_text.length > 0) {
@@ -77,6 +81,7 @@ export class ArticlesComponent {
         .subscribe((result) => {
           this.articles = result.result;
           this.total = result.size;
+          this.loaded = true;
         });
     }
     else if (this.id_author <= 0) {
@@ -84,6 +89,7 @@ export class ArticlesComponent {
         .subscribe((result) => {
           this.articles = result.result;
           this.total = result.size;
+          this.loaded = true;
         });
     }
     else {
@@ -91,9 +97,9 @@ export class ArticlesComponent {
       .subscribe((result) => {
         this.articles = result.result;
         this.total = result.size;
+        this.loaded = true;
       });
     }
- 
   }
 
   getUserById(id: number): User {
