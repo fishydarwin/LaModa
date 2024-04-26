@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Article } from './article';
+import { Article, ArticleAttachment } from './article';
 import { Observable, of } from 'rxjs';
 import { PagedResult } from './pagedresult';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CompatClient, Stomp } from '@stomp/stompjs';
+import { OfflineEntityTracker } from './offline-entity-tracker';
 
 @Injectable({
   providedIn: 'root'
@@ -16,22 +17,30 @@ export class ArticleService {
       attachmentArray: [], };
       // creationDate: new Date() };
 
-  // saveData(): void {
-  //   sessionStorage.setItem('ARTICLES', JSON.stringify(ARTICLES));
-  // }
+  // the voodoo here is off the charts...
+  private offlineTracker: OfflineEntityTracker<Article, number> =
+    new OfflineEntityTracker<Article, number>()
+      .withSessionStorageSaveName("articles")
 
-  // loadData(): void {
-  //   let saveState: string | null = sessionStorage.getItem('ARTICLES');
-  //   if (saveState != null) {
-  //     let result: Article[] = JSON.parse(saveState);
-  //     ARTICLES.splice(0, ARTICLES.length);
-  //     result.forEach(article => ARTICLES.push(article))
-  //   }
-  // }
+      .withEntityGetId((article) => article.id)
+      .withEntitySetId((article, id) => {
+        let newArticle = article;
+        newArticle.id = id;
+        return newArticle;
+      })
+
+      .withInitialOfflineId(-1)
+      .withOfflineIdUpdateCall((id) => id!--)
+
+      .withAddOperation((article) => this.add(article).subscribe())
+      .withUpdateOperation((article) => this.update(article).subscribe())
+      .withDeleteOperation((article) => this.delete(article).subscribe());
+
+  tracker(): OfflineEntityTracker<Article, number> {
+    return this.offlineTracker;
+  }
 
   constructor(private http: HttpClient) {
-    // SavesService.load(this);
-    // this.last_available_id = ARTICLES.length + 1;
     this.initUpdateSocket();
   }
 
@@ -45,6 +54,15 @@ export class ArticleService {
   // }
 
   all(page: number = 0): Observable<PagedResult<Article>> {
+    if (!this.offlineTracker.internetAvailable()) {
+      let all = Array.from(this.offlineTracker.serveCachedAll());
+      let cachedResult: PagedResult<Article> = {
+        result: all,
+        size: all.length
+      }
+      return of(cachedResult);
+    }
+    
     return this.http.get<PagedResult<Article>>("http://localhost:8080/article/all", {
       params: new HttpParams()
       .set('page', page - 1)
@@ -52,6 +70,10 @@ export class ArticleService {
   }
 
   any(id: number): Observable<boolean> {
+    if (!this.offlineTracker.internetAvailable()) {
+      return of(this.offlineTracker.isCachedId(id));
+    }
+    
     return this.http.get<boolean>(
       "http://localhost:8080/article/any", {
       params: new HttpParams()
@@ -60,6 +82,12 @@ export class ArticleService {
   }
 
   byId(id: number): Observable<Article> {
+    if (!this.offlineTracker.internetAvailable()) {
+      let article = this.offlineTracker.serveCached(id);
+      if (article == null) return of();
+      return of(article);
+    }
+
     return this.http.get<Article>("http://localhost:8080/article/byId", {
       params: new HttpParams()
       .set('id', id)
@@ -67,6 +95,21 @@ export class ArticleService {
   }
 
   ofUser(id_author: number, page: number): Observable<PagedResult<Article>> {
+    if (!this.offlineTracker.internetAvailable()) {
+      let all = Array.from(this.offlineTracker.serveCachedAll());
+      let filtered = [];
+      for (let article of all) {
+        if (article.idAuthor == id_author) {
+          filtered.push(article);
+        }
+      }
+      let cachedResult: PagedResult<Article> = {
+        result: filtered,
+        size: filtered.length
+      }
+      return of(cachedResult);
+    }
+
     return this.http.get<PagedResult<Article>>("http://localhost:8080/article/byUser", {
       params: new HttpParams()
       .set('author', id_author)
@@ -75,6 +118,21 @@ export class ArticleService {
   }
 
   ofCategory(id_category: number, page: number): Observable<PagedResult<Article>> {
+    if (!this.offlineTracker.internetAvailable()) {
+      let all = Array.from(this.offlineTracker.serveCachedAll());
+      let filtered = [];
+      for (let article of all) {
+        if (article.idCategory == id_category) {
+          filtered.push(article);
+        }
+      }
+      let cachedResult: PagedResult<Article> = {
+        result: filtered,
+        size: filtered.length
+      }
+      return of(cachedResult);
+    }
+
     return this.http.get<PagedResult<Article>>("http://localhost:8080/article/byCategory", {
       params: new HttpParams()
       .set('category', id_category)
@@ -83,6 +141,21 @@ export class ArticleService {
   }
 
   matchText(text: string, page: number): Observable<PagedResult<Article>> {
+    if (!this.offlineTracker.internetAvailable()) {
+      let all = Array.from(this.offlineTracker.serveCachedAll());
+      let filtered = [];
+      for (let article of all) {
+        if (article.name.includes(text)) {
+          filtered.push(article);
+        }
+      }
+      let cachedResult: PagedResult<Article> = {
+        result: filtered,
+        size: filtered.length
+      }
+      return of(cachedResult);
+    }
+
     return this.http.get<PagedResult<Article>>("http://localhost:8080/article/byMatchText", {
       params: new HttpParams()
       .set('text', text)
@@ -94,6 +167,12 @@ export class ArticleService {
   // last_available_id = 0;
 
   add(article: Article): Observable<number> {
+    if (!this.offlineTracker.internetAvailable()) {
+      let offlineId = this.offlineTracker.cache(article);
+      if (offlineId == null) return of();
+      this.offlineTracker.addEntity(article);
+      return of(offlineId);
+    }
     this.requestUpdateSocket();
     return this.http.post<number>("http://localhost:8080/article/add", article);
   }
@@ -101,12 +180,27 @@ export class ArticleService {
   /* UPDATE */
 
   update(article: Article): Observable<number> {
+    if (!this.offlineTracker.internetAvailable()) {
+      if (this.offlineTracker.isCached(article)) {
+        this.offlineTracker.updateEntity(article);
+        return of(this.offlineTracker.serveCached(article.id)!.id);
+      } else {
+        return of();
+      }
+    }
     this.requestUpdateSocket();
     return this.http.put<number>("http://localhost:8080/article/update/" + article.id, article);
   }
 
   /* DELETE */
   delete(article: Article): Observable<boolean> {
+    if (!this.offlineTracker.internetAvailable()) {
+      if (this.offlineTracker.isCached(article)) {
+        this.offlineTracker.deleteEntity(article);
+        return of(this.offlineTracker.destroy(article.id));
+      }
+      return of(false);
+    }
     this.requestUpdateSocket();
     return this.http.delete<boolean>("http://localhost:8080/article/delete/" + article.id);
   }

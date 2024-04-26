@@ -74,6 +74,10 @@ export class ArticlesComponent {
           this.articles = result.result;
           this.total = result.size;
           this.loaded = true;
+
+          for (let article of this.articles) {
+            this.articleService.tracker().cache(article);
+          }
         });
     }
     else if (this.match_text.length > 0) {
@@ -82,6 +86,10 @@ export class ArticlesComponent {
           this.articles = result.result;
           this.total = result.size;
           this.loaded = true;
+
+          for (let article of this.articles) {
+            this.articleService.tracker().cache(article);
+          }
         });
     }
     else if (this.id_author <= 0) {
@@ -90,15 +98,23 @@ export class ArticlesComponent {
           this.articles = result.result;
           this.total = result.size;
           this.loaded = true;
+
+          for (let article of this.articles) {
+            this.articleService.tracker().cache(article);
+          }
         });
     }
     else {
       this.articleService.ofUser(this.id_author, this.current_page)
-      .subscribe((result) => {
-        this.articles = result.result;
-        this.total = result.size;
-        this.loaded = true;
-      });
+        .subscribe((result) => {
+          this.articles = result.result;
+          this.total = result.size;
+          this.loaded = true;
+
+          for (let article of this.articles) {
+            this.articleService.tracker().cache(article);
+          }
+        });
     }
   }
 

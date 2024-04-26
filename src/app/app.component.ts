@@ -11,6 +11,7 @@ import { User } from './user';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, first, interval, repeat, retry, throwError, timeout } from 'rxjs';
+import { OfflineEntityTracker } from './offline-entity-tracker';
 
 @Component({
   selector: 'app-root',
@@ -52,9 +53,8 @@ export class AppComponent {
     )
       .pipe(
         catchError((error: HttpErrorResponse, caught) => {
-          if (!StatusService.has())
-            StatusService.showStatus("Eroare la serverul back-end: " 
-              + error.status + " (" + error.statusText + ")");
+          if (!this.connected && this.internet)
+            StatusService.showStatus("Am întâmpinat niște probleme tehnice, vă rugăm să așteptați!");
           this.connected = false;
           return throwError(() => new Error('No connection to the back-end. Please try again later.'))
         }),
@@ -63,20 +63,18 @@ export class AppComponent {
 
   private checkInternet() {
     setInterval(() => {
-      fetch('https://google.com', {
-          mode: 'no-cors',
-      })
-      .then(() => {
-        if (!this.internet)
+      
+      if (OfflineEntityTracker.internetAvailable()) {
+        if (this.connected)
           StatusService.showStatus("");
         this.internet = true;
-      })
-      .catch(() => {
+      } else {
         if (!StatusService.has())
-          StatusService.showStatus("Nu ai conexiune la internet. Te rugăm să încerci mai târziu.");
+          StatusService.showStatus("Nu ai acces la internet - articolele noi se vor încărca imediat ce revine conexiunea la rețea.");
         this.internet = false;
-      })
-    }, 2000);
+      }
+
+    }, 5000);
   }
 
   hasStatus(): boolean {

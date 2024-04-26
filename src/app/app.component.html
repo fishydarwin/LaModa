@@ -24,7 +24,7 @@
         </div>
     </header>
     <section id="MainAppGrower">
-        <div id="MainApp" *ngIf="connected && internet; else buffering">
+        <div id="MainApp" *ngIf="connected; else buffering">
             <div id="StatusBar" *ngIf="hasStatus()">
                 <p><i class="fas fa-info-circle"></i>&emsp;&emsp; {{ getStatus() }}</p>
             </div>

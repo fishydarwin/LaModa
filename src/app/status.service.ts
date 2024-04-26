@@ -30,13 +30,18 @@ export class StatusService {
     return this.currentStatus.length > 0;
   }
 
+  private static currentTimeout: any;
   static showStatus(message: string) {
     
     this.currentStatus = message;
     window.sessionStorage.removeItem('STATUS');
 
-    setTimeout(() => { 
+    if (this.currentTimeout != null)
+      clearTimeout(this.currentTimeout);
+
+    this.currentTimeout = setTimeout(() => { 
       this.currentStatus = "";
+      clearTimeout(this.currentTimeout);
     }, 7000);
   }
 
