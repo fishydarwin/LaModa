@@ -1,5 +1,3 @@
-import { Savable } from "./savable";
-
 class OfflineEntityTrackerOperation<T> {
     operation: "add" | "update" | "delete" | undefined;
     entity: T | undefined; 
@@ -42,31 +40,31 @@ export class OfflineEntityTracker<T, K> {
 
     private loaded: boolean = false;
     private saveData(): void {
-        sessionStorage.setItem(this.sessionStorageSaveName + "__operations", 
+        localStorage.setItem(this.sessionStorageSaveName + "__operations", 
                                 JSON.stringify(this.entityTracker));
-        sessionStorage.setItem(this.sessionStorageSaveName + "__cache", 
+        localStorage.setItem(this.sessionStorageSaveName + "__cache", 
                                 JSON.stringify(this.offlineCache, this.mapReplacer));
-        sessionStorage.setItem(this.sessionStorageSaveName + "__cacheOfflineId", 
+        localStorage.setItem(this.sessionStorageSaveName + "__cacheOfflineId", 
                                 JSON.stringify(this.lastOfflineId));
     }
     private loadData(): void {
         this.loaded = true;
 
-        let opState: string | null = sessionStorage
+        let opState: string | null = localStorage
                                             .getItem(this.sessionStorageSaveName + "__operations");
         if (opState != null) {
             let result: OfflineEntityTrackerOperation<T>[] = JSON.parse(opState);
             this.entityTracker = result;
         }
 
-        let cacheState: string | null = sessionStorage
+        let cacheState: string | null = localStorage
                                             .getItem(this.sessionStorageSaveName + "__cache");
         if (cacheState != null) {
             let result: Map<K, T> = JSON.parse(cacheState, this.mapReviver);
             this.offlineCache = result;
         }
 
-        let lastIdState: string | null = sessionStorage
+        let lastIdState: string | null = localStorage
                                             .getItem(this.sessionStorageSaveName + "__cacheOfflineId");
         if (lastIdState != null) {
             let result: K = JSON.parse(lastIdState);

@@ -1,0 +1,123 @@
+#SectionTitle {
+    font-size: 42px; 
+    margin: 6px;
+    margin-bottom: 32px;
+    background: -webkit-linear-gradient(var(--color-muted1), var(--color-accent2), var(--color-accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+
+    i {
+        font-size: 28px;
+        background: -webkit-linear-gradient(var(--color-main1), var(--color-main3) 85%, var(--color-muted1));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    p {
+        font-size: medium;
+        color: var(--color-disabled);
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: initial;
+        span {
+            font-size: large;
+        }
+    }
+}
+
+#ArticleList {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.article-item-link {
+    margin: 12px 8px 12px 8px;
+}
+
+.article-item {
+    padding: 16px;
+    min-width: 250px;
+    max-width: 250px;
+    width: 250px;
+    height: 92%;
+    background: var(--color-main5);
+    // background: linear-gradient(180deg, var(--color-main5) 0%, var(--color-main3) 50%, var(--color-main3) 100%);
+    // border-radius: 12px;
+    box-shadow: 0 2px 3px var(--color-disabled);
+}
+
+.article-item * {
+    color: var(--color-muted3);
+}
+
+.article-item .name {
+    text-align: center;
+}
+
+.article-item .attachment-list {
+    background: #5e89d29b;
+    display: inline-flex;
+    justify-content: start;
+    align-items: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    max-width: 250px;
+    min-height: 160px;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.article-item .attachment {
+    max-height: 160px;
+    width: auto;
+    margin: 4px;
+    // border-radius: 8px;
+    box-shadow: 0 2px 3px #333;
+    opacity: 0.9;
+}
+
+.article-item .attachment:hover {
+    opacity: 1.0;
+}
+
+.article-item .summary {
+    color: #545;
+    font-size: small;
+    text-align: justify;
+}
+
+// .article-item .author {
+// }
+
+#PaginationControls {
+    display: flex;
+    justify-content: center;
+
+    ::ng-deep .ngx-pagination {
+        padding-inline-start: 0;
+
+        .current {
+            color: var(--color-muted1);
+            background-color: #000;
+        }
+
+        .disabled {
+            background-color: none;
+        }
+
+        li a {
+            color: var(--color-muted1);
+            background-color: var(--color-muted2);
+        }
+
+        li a:hover {
+            background-color: var(--color-muted3);
+        }
+    }
+}
