@@ -73,14 +73,16 @@ export class UserService {
   generateSession(who: User): Observable<string> {
     return this.http.get<string>("http://localhost:8080/user/generateSession", {
       params: new HttpParams()
-        .set('id', who.id),
+        .set('id', who.id)
+        .set('email', who.email)
+        .set('passwordObfuscated', who.passwordObfuscated),
     });
   }
 
   fromSession(id: string | null): Observable<User | undefined> {
     return this.http.get<User | undefined>("http://localhost:8080/user/bySession", {
       params: new HttpParams()
-      .set('sessionId', id == null ? -1 : id)
+        .set('sessionId', id == null ? -1 : id)
     });
   }
 

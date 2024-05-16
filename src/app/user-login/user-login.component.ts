@@ -40,6 +40,7 @@ export class UserLoginComponent {
 
         this.userService.byId(userId)
           .subscribe((user) => {
+            user.passwordObfuscated = this.password;
             this.userService.generateSession(user)
               .subscribe((sessionToken) => {
                 window.sessionStorage.setItem("USER_SESSION_TOKEN", sessionToken);

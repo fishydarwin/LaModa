@@ -173,6 +173,7 @@ export class ArticleService {
       this.offlineTracker.addEntity(article);
       return of(offlineId);
     }
+    
     this.requestUpdateSocket();
     return this.http.post<number>("http://localhost:8080/article/add", article);
   }
@@ -180,6 +181,8 @@ export class ArticleService {
   /* UPDATE */
 
   update(article: Article): Observable<number> {
+    let sessionId = window.sessionStorage.getItem('USER_SESSION_TOKEN');
+
     if (!this.offlineTracker.internetAvailable()) {
       if (this.offlineTracker.isCached(article)) {
         this.offlineTracker.updateEntity(article);
@@ -188,12 +191,16 @@ export class ArticleService {
         return of();
       }
     }
+
     this.requestUpdateSocket();
-    return this.http.put<number>("http://localhost:8080/article/update/" + article.id, article);
+    return this.http.put<number>("http://localhost:8080/article/update/" + article.id + 
+                                 "?sessionId=" + sessionId, article);
   }
 
   /* DELETE */
   delete(article: Article): Observable<boolean> {
+    let sessionId = window.sessionStorage.getItem('USER_SESSION_TOKEN');
+
     if (!this.offlineTracker.internetAvailable()) {
       if (this.offlineTracker.isCached(article)) {
         this.offlineTracker.deleteEntity(article);
@@ -201,8 +208,10 @@ export class ArticleService {
       }
       return of(false);
     }
+
     this.requestUpdateSocket();
-    return this.http.delete<boolean>("http://localhost:8080/article/delete/" + article.id);
+    return this.http.delete<boolean>("http://localhost:8080/article/delete/" + article.id + 
+                                     "?sessionId=" + sessionId);
   }
 
   /* WEBSOCKET UPDATE */
