@@ -14,3 +14,5 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule)
   ]
 };
+
+export const requestUrl = "http://localhost:8080";

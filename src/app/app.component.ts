@@ -12,6 +12,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, first, interval, repeat, retry, throwError, timeout } from 'rxjs';
 import { OfflineEntityTracker } from './offline-entity-tracker';
+import { requestUrl } from './app.config';
 
 @Component({
   selector: 'app-root',
@@ -48,7 +49,7 @@ export class AppComponent {
   }
 
   private connectionChecker: Observable<string> =
-    this.http.get<string>("http://localhost:8080/status",
+    this.http.get<string>(requestUrl + "/status",
         { headers: new HttpHeaders({ timeout: `${6000}` }) }
     )
       .pipe(

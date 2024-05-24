@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from './user';
 import { Observable, first, firstValueFrom} from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { requestUrl } from './app.config';
 
 // export let USER_SESSIONS: Map<string, User> = new Map();
 
@@ -42,19 +43,19 @@ export class UserService {
   }
 
   all(): Observable<User[]> {
-    return this.http.get<User[]>("http://localhost:8080/user/all");
+    return this.http.get<User[]>(requestUrl + "/user/all");
   }
 
   any(id: number): Observable<boolean> {
     return this.http.get<boolean>(
-      "http://localhost:8080/user/any", {
+       requestUrl + "/user/any", {
       params: new HttpParams()
       .set('id', id)
     });
   }
 
   byId(id: number): Observable<User> {
-    return this.http.get<User>("http://localhost:8080/user/byId", {
+    return this.http.get<User>( requestUrl + "/user/byId", {
       params: new HttpParams()
       .set('id', id)
     });
@@ -63,7 +64,7 @@ export class UserService {
   /* LOGIN RELATED */
 
   idByDetails(email: string, password_obfuscated: string): Observable<number> {
-    return this.http.get<number>("http://localhost:8080/user/idByDetails", {
+    return this.http.get<number>( requestUrl + "/user/idByDetails", {
       params: new HttpParams()
       .set('email', email)
       .set('passwordObfuscated', password_obfuscated)
@@ -71,7 +72,7 @@ export class UserService {
   }
 
   generateSession(who: User): Observable<string> {
-    return this.http.get<string>("http://localhost:8080/user/generateSession", {
+    return this.http.get<string>( requestUrl + "/user/generateSession", {
       params: new HttpParams()
         .set('id', who.id)
         .set('email', who.email)
@@ -80,7 +81,7 @@ export class UserService {
   }
 
   fromSession(id: string | null): Observable<User | undefined> {
-    return this.http.get<User | undefined>("http://localhost:8080/user/bySession", {
+    return this.http.get<User | undefined>( requestUrl + "/user/bySession", {
       params: new HttpParams()
         .set('sessionId', id == null ? -1 : id)
     });
@@ -91,11 +92,11 @@ export class UserService {
 
   add(user: User): Observable<number> {
     user.role = user.role.toUpperCase();
-    return this.http.post<number>("http://localhost:8080/user/add", user);
+    return this.http.post<number>( requestUrl + "/user/add", user);
   }
 
   anyByEmail(email: string): Observable<boolean> {
-    return this.http.get<boolean>("http://localhost:8080/user/anyByEmail", {
+    return this.http.get<boolean>( requestUrl + "/user/anyByEmail", {
       params: new HttpParams()
       .set('email', email)
     });
@@ -103,7 +104,7 @@ export class UserService {
 
   changeModerator(email: string): Observable<boolean> {
     let sessionId = window.sessionStorage.getItem('USER_SESSION_TOKEN');
-    return this.http.put<boolean>("http://localhost:8080/user/changeModerator/" + email + 
+    return this.http.put<boolean>( requestUrl + "/user/changeModerator/" + email + 
                                  "?sessionId=" + sessionId, []);
   }
 

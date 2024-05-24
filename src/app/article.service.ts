@@ -5,6 +5,7 @@ import { PagedResult } from './pagedresult';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CompatClient, Stomp } from '@stomp/stompjs';
 import { OfflineEntityTracker } from './offline-entity-tracker';
+import { requestUrl } from './app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +64,7 @@ export class ArticleService {
       return of(cachedResult);
     }
     
-    return this.http.get<PagedResult<Article>>("http://localhost:8080/article/all", {
+    return this.http.get<PagedResult<Article>>(requestUrl + "/article/all", {
       params: new HttpParams()
       .set('page', page - 1)
     });
@@ -75,7 +76,7 @@ export class ArticleService {
     }
     
     return this.http.get<boolean>(
-      "http://localhost:8080/article/any", {
+      requestUrl + "/article/any", {
       params: new HttpParams()
       .set('id', id)
     });
@@ -88,7 +89,7 @@ export class ArticleService {
       return of(article);
     }
 
-    return this.http.get<Article>("http://localhost:8080/article/byId", {
+    return this.http.get<Article>(requestUrl + "/article/byId", {
       params: new HttpParams()
       .set('id', id)
     });
@@ -110,7 +111,7 @@ export class ArticleService {
       return of(cachedResult);
     }
 
-    return this.http.get<PagedResult<Article>>("http://localhost:8080/article/byUser", {
+    return this.http.get<PagedResult<Article>>(requestUrl + "/article/byUser", {
       params: new HttpParams()
       .set('author', id_author)
       .set('page', page - 1)
@@ -133,7 +134,7 @@ export class ArticleService {
       return of(cachedResult);
     }
 
-    return this.http.get<PagedResult<Article>>("http://localhost:8080/article/byCategory", {
+    return this.http.get<PagedResult<Article>>(requestUrl + "/article/byCategory", {
       params: new HttpParams()
       .set('category', id_category)
       .set('page', page - 1)
@@ -156,7 +157,7 @@ export class ArticleService {
       return of(cachedResult);
     }
 
-    return this.http.get<PagedResult<Article>>("http://localhost:8080/article/byMatchText", {
+    return this.http.get<PagedResult<Article>>(requestUrl + "/article/byMatchText", {
       params: new HttpParams()
       .set('text', text)
       .set('page', page - 1)
@@ -175,7 +176,7 @@ export class ArticleService {
     }
     
     this.requestUpdateSocket();
-    return this.http.post<number>("http://localhost:8080/article/add", article);
+    return this.http.post<number>(requestUrl + "/article/add", article);
   }
 
   /* UPDATE */
@@ -193,7 +194,7 @@ export class ArticleService {
     }
 
     this.requestUpdateSocket();
-    return this.http.put<number>("http://localhost:8080/article/update/" + article.id + 
+    return this.http.put<number>(requestUrl + "/article/update/" + article.id + 
                                  "?sessionId=" + sessionId, article);
   }
 
@@ -210,7 +211,7 @@ export class ArticleService {
     }
 
     this.requestUpdateSocket();
-    return this.http.delete<boolean>("http://localhost:8080/article/delete/" + article.id + 
+    return this.http.delete<boolean>(requestUrl + "/article/delete/" + article.id + 
                                      "?sessionId=" + sessionId);
   }
 
