@@ -13,6 +13,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
 import { ArticlesSearchComponent } from './articles-search/articles-search.component';
 import { InfiArticlesComponent } from './infi-articles/infi-articles.component';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/articles', pathMatch: 'full' },
@@ -29,7 +30,9 @@ export const routes: Routes = [
     
     { path: 'category/:id', component: CategoryComponent },
 
-    { path: 'admin/stats', component: StatsComponent },
+    { path: 'admin/users', component: AdminUsersComponent },
+
+    { path: 'stats', component: StatsComponent },
     { path: 'infinite', component: InfiArticlesComponent },
 
     // special

@@ -101,4 +101,10 @@ export class UserService {
     });
   }
 
+  changeModerator(email: string): Observable<boolean> {
+    let sessionId = window.sessionStorage.getItem('USER_SESSION_TOKEN');
+    return this.http.put<boolean>("http://localhost:8080/user/changeModerator/" + email + 
+                                 "?sessionId=" + sessionId, []);
+  }
+
 }

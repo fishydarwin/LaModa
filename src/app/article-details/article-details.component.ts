@@ -59,7 +59,11 @@ export class ArticleDetailsComponent {
                       .subscribe(loggedIn => {
                         this.user = loggedIn;
                         if (loggedIn != undefined) {
-                          if (this.article.idAuthor == loggedIn.id) {
+                          if (loggedIn.role != 'ADMIN' && loggedIn.role != 'MODERATOR') {
+                            if (this.article.idAuthor == loggedIn.id) {
+                              this.access = true;
+                            }
+                          } else { 
                             this.access = true;
                           }
                         }

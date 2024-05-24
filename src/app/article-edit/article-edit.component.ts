@@ -57,14 +57,16 @@ export class ArticleEditComponent {
                       return;
                     }
             
-                    if (this.dummy_article.idAuthor != loggedIn.id) {
-                      this.loaded = true;
-                      return;
+                    if (loggedIn.role != 'MODERATOR' && loggedIn.role != 'ADMIN') {
+                      if (this.dummy_article.idAuthor != loggedIn.id) {
+                        this.loaded = true;
+                        return;
+                      }
                     }
     
                     this.access = true;
-            
-                    this.dummy_article.idAuthor = loggedIn.id;
+
+                    // this.dummy_article.idAuthor = loggedIn.id;
                     this.loaded = true;
                   });
               });

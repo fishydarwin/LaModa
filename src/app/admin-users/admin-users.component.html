@@ -1,0 +1,16 @@
+<div id="MainArticleFormWrapper" *ngIf="access; else noAccess">
+    <div id="AdminContainer">
+        <h3><i class="fas fa-wrench"></i> Administrator <i class="fas fa-chevron-right"></i> Administrează utilizatorii site-ului</h3>
+
+        <p><i class="fas fa-sort-amount-up"></i> Poți modifica permisiunile unui utilizator prin e-mail.</p>
+        <form>
+            <input [(ngModel)]="email" name="email" type="email" placeholder="e-mail">
+            <button type="submit" id="Submit" (click)="changeModerator()">
+                <i class="fas fa-sign-in-alt"></i> Adaugă/Șterge Moderator
+            </button>
+        </form>
+    </div>
+</div>
+<ng-template #noAccess>
+    <app-no-access></app-no-access>
+</ng-template>
