@@ -20,6 +20,10 @@ export class ArticleFormComponent {
     name: "", summary: "", attachmentArray: [] };
     // creationDate: new Date() };
 
+  @Input({required: true, alias: 'form-data' })
+  form_data: FormData = new FormData();
+  private file_list: File[] = [];
+
   categories: Category[] = [];
 
   constructor(private categoryService: CategoryService) {
@@ -27,11 +31,20 @@ export class ArticleFormComponent {
       .subscribe(categories => this.categories = categories);
   }
 
+  private refreshFormData() {
+    this.form_data.delete("files");
+    this.file_list?.forEach((fileObject: File) => {
+      this.form_data.append("files", fileObject);
+    });
+  }
+
   onFileSelectionChanged(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
-      Array.from(fileList).forEach((fileObject: File) => {
+      Array.from(fileList).forEach((elem) => this.file_list.push(elem));
+      this.dummy_article.attachmentArray.splice(0, this.dummy_article.attachmentArray.length);
+      this.file_list.forEach((fileObject: File) => {
         const url = window.URL.createObjectURL(fileObject);
         let attachment = {} as ArticleAttachment;
         attachment.id = -1;
@@ -39,12 +52,15 @@ export class ArticleFormComponent {
         attachment.attachmentUrl = url;
         this.dummy_article.attachmentArray.push(attachment);
       });
+      this.refreshFormData();
       element.value = '';
     }
   }
 
   onFileRemove(event: Event, index: number) {
     this.dummy_article.attachmentArray.splice(index, 1);
+    this.file_list.splice(index, 1);
+    this.refreshFormData();
   }
 
 }

@@ -6,9 +6,9 @@ import { StatusService } from '../status.service';
 import { ArticleService } from '../article.service';
 import { ArticlesComponent } from '../articles/articles.component';
 import { ArticleFormComponent } from '../article-form/article-form.component';
-import { SavesService } from '../saves.service';
 import { User } from '../user';
 import { NoAccessComponent } from '../no-access/no-access.component';
+import { requestUrl } from '../app.config';
 
 @Component({
   selector: 'app-article-create',
@@ -28,6 +28,8 @@ export class ArticleCreateComponent {
       attachmentArray: [],
       // creationDate: new Date()
     };
+
+  form_data: FormData = new FormData();
 
   user: User|undefined;
     
@@ -59,10 +61,26 @@ export class ArticleCreateComponent {
       return;
     }
 
-    this.articleService.add(this.dummy_article)
-      .subscribe((articleId) => {
-        window.location.replace("/article/" + articleId);
-      });
+    this.articleService.uploadAttachments(this.form_data)
+      .subscribe((attachmentUrls) => {
+
+        let urls: string[] = attachmentUrls.replace("[", "").replace("]", "").split(",");
+        this.dummy_article.attachmentArray.splice(0, this.dummy_article.attachmentArray.length);
+
+        urls.forEach((elem: string) => {
+          let attachment: ArticleAttachment = {
+            id: -1,
+            idArticle: this.dummy_article.id,
+            attachmentUrl: requestUrl + "/uploads/get/" + elem.trim()
+          };
+          this.dummy_article.attachmentArray.push(attachment);
+        })
+
+        this.articleService.add(this.dummy_article)
+          .subscribe((articleId) => {
+            window.location.replace("/article/" + articleId);
+          });
+      })
 
   }
 

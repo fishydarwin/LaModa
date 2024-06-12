@@ -33,6 +33,8 @@ export class ArticleService {
       .withInitialOfflineId(-1)
       .withOfflineIdUpdateCall((id) => id!--)
 
+      //TODO: re-inspect this, ADD/UPDATE needs to store form-data somewhere!
+      //See "Blob -> FileObject?"
       .withAddOperation((article) => this.add(article).subscribe())
       .withUpdateOperation((article) => this.update(article).subscribe())
       .withDeleteOperation((article) => this.delete(article).subscribe());
@@ -167,7 +169,14 @@ export class ArticleService {
   /* CREATE */
   // last_available_id = 0;
 
+  uploadAttachments(form_data: FormData): Observable<string> {
+    let sessionId = window.sessionStorage.getItem('USER_SESSION_TOKEN');
+    return this.http.post<string>(requestUrl + "/uploads/add?sessionId=" + sessionId, form_data);
+  }
+
   add(article: Article): Observable<number> {
+    let sessionId = window.sessionStorage.getItem('USER_SESSION_TOKEN');
+
     if (!this.offlineTracker.internetAvailable()) {
       let offlineId = this.offlineTracker.cache(article);
       if (offlineId == null) return of();
@@ -176,7 +185,7 @@ export class ArticleService {
     }
     
     this.requestUpdateSocket();
-    return this.http.post<number>(requestUrl + "/article/add", article);
+    return this.http.post<number>(requestUrl + "/article/add?sessionId=" + sessionId, article);
   }
 
   /* UPDATE */

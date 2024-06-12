@@ -2,7 +2,7 @@
     <div id="MainArticleFormWrapper">
         <div id="ArticleFormWrapper">
             <h1 class="dm-serif">Creare articol nou</h1>
-            <app-article-form [dummy-article]="dummy_article"></app-article-form>
+            <app-article-form [dummy-article]="dummy_article" [form-data]="form_data"></app-article-form>
             <button type="submit" id="Submit" (click)="createArticle()">
                 <i class="fas fa-plus"></i> Creează articol
             </button>

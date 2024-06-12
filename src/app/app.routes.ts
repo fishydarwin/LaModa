@@ -8,7 +8,6 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { CategoryComponent } from './category/category.component';
 import { ArticleCreateComponent } from './article-create/article-create.component';
 import { ArticleEditComponent } from './article-edit/article-edit.component';
-import { StatsComponent } from './stats/stats.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
 import { ArticlesSearchComponent } from './articles-search/articles-search.component';
@@ -31,8 +30,7 @@ export const routes: Routes = [
     { path: 'category/:id', component: CategoryComponent },
 
     { path: 'admin/users', component: AdminUsersComponent },
-
-    { path: 'stats', component: StatsComponent },
+    
     { path: 'infinite', component: InfiArticlesComponent },
 
     // special

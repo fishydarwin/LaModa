@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SavesService } from '../saves.service';
-import { Article, ArticleValidator } from '../article';
+import { Article, ArticleAttachment, ArticleValidator } from '../article';
 import { UserService } from '../user.service';
 import { StatusService } from '../status.service';
 import { ArticleService } from '../article.service';
@@ -11,6 +11,7 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 import { NgIf } from '@angular/common';
 import { NoAccessComponent } from '../no-access/no-access.component';
 import { User } from '../user';
+import { requestUrl } from '../app.config';
 
 @Component({
   selector: 'app-article-edit',
@@ -31,6 +32,8 @@ export class ArticleEditComponent {
       attachmentArray: [],
       // creationDate: new Date()
     };
+
+  form_data: FormData = new FormData();
 
   user: User|undefined;
 
@@ -85,10 +88,26 @@ export class ArticleEditComponent {
       return;
     }
 
-    this.articleService.update(this.dummy_article)
-      .subscribe((articleId) => {
-        window.location.replace("/article/" + articleId);
-      });
+    this.articleService.uploadAttachments(this.form_data)
+      .subscribe((attachmentUrls) => {
+
+        let urls: string[] = attachmentUrls.replace("[", "").replace("]", "").split(",");
+        this.dummy_article.attachmentArray.splice(0, this.dummy_article.attachmentArray.length);
+
+        urls.forEach((elem: string) => {
+          let attachment: ArticleAttachment = {
+            id: -1,
+            idArticle: this.dummy_article.id,
+            attachmentUrl: requestUrl + "/uploads/get/" + elem.trim()
+          };
+          this.dummy_article.attachmentArray.push(attachment);
+        })
+
+        this.articleService.update(this.dummy_article)
+          .subscribe((articleId) => {
+            window.location.replace("/article/" + articleId);
+          });
+      })
   }
 
 }
