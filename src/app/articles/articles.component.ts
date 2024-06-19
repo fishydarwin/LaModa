@@ -6,8 +6,6 @@ import { UserService } from '../user.service';
 import { User } from '../user';
 import { RouterLink } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CompatClient, Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
 
 @Component({
   selector: 'app-articles',

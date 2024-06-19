@@ -3,6 +3,7 @@
     margin: 6px;
     margin-bottom: 32px;
     background: -webkit-linear-gradient(var(--color-muted1), var(--color-accent2), var(--color-accent2));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
@@ -10,6 +11,7 @@
     i {
         font-size: 28px;
         background: -webkit-linear-gradient(var(--color-main1), var(--color-main3) 85%, var(--color-muted1));
+        background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -17,6 +19,7 @@
     p {
         font-size: medium;
         color: var(--color-disabled);
+        background-clip: text;
         -webkit-background-clip: initial;
         -webkit-text-fill-color: initial;
         span {
@@ -101,6 +104,10 @@
 
     ::ng-deep .ngx-pagination {
         padding-inline-start: 0;
+
+        @media only screen and (max-width: 800px) {
+            font-size: 10px;
+        }
 
         .current {
             color: var(--color-muted1);

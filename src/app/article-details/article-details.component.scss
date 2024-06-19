@@ -3,10 +3,16 @@
     flex-direction: column;
     align-items: center;
     width: 800px;
+    @media only screen and (max-width: 800px) {
+        width: auto;
+    }
 }
 
 #Title {
     width: 600px;
+    @media only screen and (max-width: 800px) {
+        width: auto;
+    }
     
     h1 {
         margin: 6px;
@@ -37,6 +43,9 @@
 
 #Summary {
     width: 600px;
+    @media only screen and (max-width: 800px) {
+        width: auto;
+    }
 
     p {
         text-align: center;
@@ -56,6 +65,14 @@
     &::-webkit-scrollbar {
         display: none;
     }
+
+    @media only screen and (max-width: 800px) {
+        overflow: hidden;
+        flex-direction: column;
+        max-width: 90vw;
+        mask-image: none;
+        padding: 0;
+    }
 }
 
 #Attachments img {
@@ -65,10 +82,19 @@
     // border-radius: 8px;
     box-shadow: 0 2px 3px #333;
     opacity: 0.9;
+
+    @media only screen and (max-width: 800px) {
+        width: 100%;
+        height: auto;
+    }
 }
 
 #User {
     width: 600px;
+    @media only screen and (max-width: 800px) {
+        width: auto;
+    }
+    
     text-align: center;
     font-size: small;
     margin: 0px;

@@ -23,12 +23,19 @@ export class ArticleFormComponent {
   @Input({required: true, alias: 'form-data' })
   form_data: FormData = new FormData();
   private file_list: File[] = [];
+  private original_copies: ArticleAttachment[] = [];
 
   categories: Category[] = [];
 
   constructor(private categoryService: CategoryService) {
     this.categoryService.all()
       .subscribe(categories => this.categories = categories);
+  }
+
+  ngOnInit() {
+    this.dummy_article.attachmentArray.forEach((attachment) => {
+      this.original_copies.push(attachment);
+    });
   }
 
   private refreshFormData() {
@@ -44,6 +51,11 @@ export class ArticleFormComponent {
     if (fileList) {
       Array.from(fileList).forEach((elem) => this.file_list.push(elem));
       this.dummy_article.attachmentArray.splice(0, this.dummy_article.attachmentArray.length);
+
+      this.original_copies.forEach((original_attachment) => {
+        this.dummy_article.attachmentArray.push(original_attachment);
+      });
+
       this.file_list.forEach((fileObject: File) => {
         const url = window.URL.createObjectURL(fileObject);
         let attachment = {} as ArticleAttachment;
@@ -53,14 +65,19 @@ export class ArticleFormComponent {
         this.dummy_article.attachmentArray.push(attachment);
       });
       this.refreshFormData();
+
       element.value = '';
     }
   }
 
   onFileRemove(event: Event, index: number) {
     this.dummy_article.attachmentArray.splice(index, 1);
-    this.file_list.splice(index, 1);
-    this.refreshFormData();
+    if (index < this.original_copies.length) {
+      this.original_copies.splice(index, 1);
+    } else {
+      this.file_list.splice(index, 1);
+      this.refreshFormData();
+    }
   }
 
 }

@@ -88,26 +88,41 @@ export class ArticleEditComponent {
       return;
     }
 
-    this.articleService.uploadAttachments(this.form_data)
-      .subscribe((attachmentUrls) => {
+    if (this.form_data.getAll('files').length == 0) {
+      this.processAfterMaybeUpload("");
+    }
+    else {
+      this.articleService.uploadAttachments(this.form_data)
+        .subscribe((attachmentUrls) => {
+          this.processAfterMaybeUpload(attachmentUrls);
+        });
+    }
+  }
 
-        let urls: string[] = attachmentUrls.replace("[", "").replace("]", "").split(",");
-        this.dummy_article.attachmentArray.splice(0, this.dummy_article.attachmentArray.length);
+  private processAfterMaybeUpload(attachmentUrls: string) {
 
-        urls.forEach((elem: string) => {
-          let attachment: ArticleAttachment = {
-            id: -1,
-            idArticle: this.dummy_article.id,
-            attachmentUrl: requestUrl + "/uploads/get/" + elem.trim()
-          };
-          this.dummy_article.attachmentArray.push(attachment);
-        })
+    if (attachmentUrls.trim().length > 0) {
+      let urls: string[] = attachmentUrls.replace("[", "").replace("]", "").split(",");
+      this.dummy_article.attachmentArray = 
+        this.dummy_article.attachmentArray.filter((attachment) => {
+          return attachment.attachmentUrl.startsWith(requestUrl);
+        });
 
-        this.articleService.update(this.dummy_article)
-          .subscribe((articleId) => {
-            window.location.replace("/article/" + articleId);
-          });
+      urls.forEach((elem: string) => {
+        let attachment: ArticleAttachment = {
+          id: -1,
+          idArticle: this.dummy_article.id,
+          attachmentUrl: requestUrl + "/uploads/get/" + elem.trim()
+        };
+        this.dummy_article.attachmentArray.push(attachment);
       })
+    }
+
+    this.articleService.update(this.dummy_article)
+      .subscribe((articleId) => {
+        window.location.replace("/article/" + articleId);
+      });
+
   }
 
 }
