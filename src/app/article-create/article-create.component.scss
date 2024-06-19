@@ -8,6 +8,10 @@
     justify-content: space-evenly;
     width: 100%;
     align-items: flex-start;
+
+    @media only screen and (max-width: 800px) {
+        flex-direction: column;
+    }
 }
 
 #ArticleFormWrapper, #ArticlePreviewWrapper {

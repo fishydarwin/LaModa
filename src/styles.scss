@@ -153,6 +153,9 @@ a {
         background: linear-gradient(180deg, var(--color-accent1) 0%, var(--color-accent3) 100%);
         padding: 8px 12px;
         border-radius: 25px;
+        @media only screen and (max-width: 800px) {
+            padding: 5px 9px;
+        }
     }
 }
 
@@ -160,6 +163,11 @@ input {
     margin: 8px;
     padding: 10px 16px;
     font-size: medium;
+
+    @media only screen and (max-width: 800px) {
+        padding: 5px 5px;
+        font-size: 13px;
+    }
 
     &.button {
         border-radius: 25px;
@@ -186,6 +194,10 @@ button {
     margin: 8px;
     padding: 10px 16px;
     font-size: medium;
+
+    @media only screen and (max-width: 800px) {
+        padding: 5px 9px;
+    }
 
     border-radius: 25px;
     background: var(--color-muted2);
@@ -228,6 +240,9 @@ textarea {
     min-height: 100px;
     font-size: small;
     resize: none;
+    @media only screen and (max-width: 800px) {
+        padding: 12px;
+    }
 }
 
 .uploader {

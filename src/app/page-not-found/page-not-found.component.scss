@@ -8,23 +8,37 @@
         margin: 6px;
         background: -webkit-linear-gradient(var(--color-muted1), var(--color-accent2));
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: center;
         font-size: 64px;
+        @media only screen and (max-width: 800px) {
+            font-size: large;
+        }
     }
 
     i {
         font-size: 48px;
+        @media only screen and (max-width: 800px) {
+            font-size: x-large;
+        }
         background: var(--color-muted2);
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
     }
 
     a {
         font-size: 24px;
+        @media only screen and (max-width: 800px) {
+            font-size: small;
+        }
         color: var(--color-muted2);
         i {
             font-size: 24px;
+            @media only screen and (max-width: 800px) {
+                font-size: small;
+            }
         }
     }
 
